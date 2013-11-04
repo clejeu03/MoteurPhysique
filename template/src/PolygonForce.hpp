@@ -17,6 +17,8 @@ public:
 		m_fElasticity(elasticity),
 		m_Solver(solver),
 		m_fDt(0);
+		
+	void setDt(const float& dt);
 }
 
 }
