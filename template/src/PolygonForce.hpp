@@ -1,0 +1,2 @@
+#ifndef _H_IMAC3_POLYGONFORCE_H_
+#define _H_IMAC3_POLYGONFORCE_H_

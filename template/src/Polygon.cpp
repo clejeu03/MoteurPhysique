@@ -64,6 +64,8 @@ namespace imac3
 			// Vérification 2 : 0 <= AM scalaire Ab <= (normeAB)²
 			if(0 <= glm::dot(AM, AB) && glm::dot(AM, AB) <= glm::l2Norm(glm::vec3(AB, 0)) * glm::l2Norm(glm::vec3(AB, 0)))
 			{
+				*intersection = M;
+				*normal = normalAB;
 				return true;
 			}
 		}				

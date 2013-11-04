@@ -14,5 +14,12 @@ namespace imac3
 			pm.setForceBuffer(i, glm::vec2(0, 0));
 		}
 	}
+	
+	ParticleState LeapFrogSolver::getNextState(uint32_t id, ParticleManager& pm, float dt) const
+	{
+		glm::vec2 newSpeed = pm.getSpeed(id) + dt * pm.getForceBuffer(id)/pm.getMass(id);
+		glm::vec2 newPos = pm.getPosition(id) + dt * newSpeed;
+		return ParticleState(newPos, newSpeed);
+	}
 
 }

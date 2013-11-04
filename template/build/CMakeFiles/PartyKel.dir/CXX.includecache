@@ -490,23 +490,27 @@ norm.inl
 
 ../third-party/glm-0.9.4.6/glm/gtx/norm.inl
 
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/ConstantForce.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/ConstantForce.hpp
 Force.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/Force.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/Force.hpp
 glm/glm.hpp
 -
 
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/Force.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/Force.hpp
 ParticleManager.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/ParticleManager.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/ParticleManager.hpp
 
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/LeapFrogSolver.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/LeapFrogSolver.hpp
 renderer/ParticleRenderer2D.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/renderer/ParticleRenderer2D.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/renderer/ParticleRenderer2D.hpp
 ParticleManager.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/ParticleManager.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/ParticleManager.hpp
+glm/glm.hpp
+-
+glm/gtx/norm.hpp
+-
 
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/ParticleManager.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/ParticleManager.hpp
 vector
 -
 iostream
@@ -514,9 +518,9 @@ iostream
 glm/glm.hpp
 -
 renderer/ParticleRenderer2D.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/renderer/ParticleRenderer2D.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/renderer/ParticleRenderer2D.hpp
 
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/Polygon.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/Polygon.hpp
 vector
 -
 glm/glm.hpp
@@ -524,9 +528,9 @@ glm/glm.hpp
 glm/gtx/norm.hpp
 -
 renderer/ParticleRenderer2D.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/renderer/ParticleRenderer2D.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/renderer/ParticleRenderer2D.hpp
 
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/main.cpp
+/home/bastien/Imac/MoteurPhysique/template/src/main.cpp
 iostream
 -
 cstdlib
@@ -536,27 +540,27 @@ glm/glm.hpp
 glm/gtc/random.hpp
 -
 renderer/WindowManager.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/renderer/WindowManager.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/renderer/WindowManager.hpp
 renderer/ParticleRenderer2D.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/renderer/ParticleRenderer2D.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/renderer/ParticleRenderer2D.hpp
 ParticleManager.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/ParticleManager.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/ParticleManager.hpp
 ConstantForce.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/ConstantForce.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/ConstantForce.hpp
 LeapFrogSolver.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/LeapFrogSolver.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/LeapFrogSolver.hpp
 Polygon.hpp
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/Polygon.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/Polygon.hpp
 vector
 -
 
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/renderer/ParticleRenderer2D.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/renderer/ParticleRenderer2D.hpp
 GL/glew.h
 -
 glm/glm.hpp
 -
 
-/home/6im3/clejeu03/Documents/Moteur Physique/template/src/renderer/WindowManager.hpp
+/home/bastien/Imac/MoteurPhysique/template/src/renderer/WindowManager.hpp
 SDL/SDL.h
 -
 

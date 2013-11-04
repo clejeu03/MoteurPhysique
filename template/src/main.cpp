@@ -41,9 +41,6 @@ int main() {
 	imac3::Polygon box = imac3::Polygon::buildBox(glm::vec3(1.f, 0.f, 0.f), glm::vec2(-0.9f, -0.9f), 1.8, 1.8);
 	imac3::Polygon circle = imac3::Polygon::buildCircle(glm::vec3(0.f, 1.f, 0.f), glm::vec2(0.f, 0.2f), 0.2, 32);
 
-	std::cout << imac3::Polygon::intersect(glm::vec2(0, 1), glm::vec2(0, -1), glm::vec2(0, 1), glm::vec2(0, -1), NULL, NULL) << std::endl;
-
-
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
 
@@ -58,6 +55,9 @@ int main() {
 		circle.draw(renderer);
 
         // Simulation
+        imac3::ParticleState ps = solver.getNextState(2, particleManager, 0.1);
+		std::cout << "next pos : " << ps.position.x << ", " << ps.position.y << std::endl;
+		std::cout << "next speed : " << ps.velocity.x << ", " << ps.velocity.y << std::endl;
         gravity.apply(particleManager);
 		solver.solve(particleManager, dt);
 

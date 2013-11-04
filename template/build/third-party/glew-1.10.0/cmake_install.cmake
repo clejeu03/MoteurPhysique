@@ -1,4 +1,4 @@
-# Install script for directory: /home/6im3/clejeu03/Documents/Moteur Physique/template/third-party/glew-1.10.0
+# Install script for directory: /home/bastien/Imac/MoteurPhysique/template/third-party/glew-1.10.0
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
