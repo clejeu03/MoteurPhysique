@@ -12,11 +12,12 @@
 #include "LeapFrogSolver.hpp"
 
 #include "Polygon.hpp"
+#include "PolygonForce.hpp"
 
 #include <vector>
 
-static const Uint32 WINDOW_WIDTH = 1024;
-static const Uint32 WINDOW_HEIGHT = 1024;
+static const Uint32 WINDOW_WIDTH = 512;
+static const Uint32 WINDOW_HEIGHT = 512;
 
 
 int main() {
@@ -26,14 +27,16 @@ int main() {
     imac3::ParticleRenderer2D renderer;
 
     // Création des particules
-    imac3::ParticleManager particleManager;
-    particleManager.addParticle(glm::vec2(0, 0), 1.f, glm::vec2(0, 0), glm::vec3(1, 1, 1));
-	particleManager.addRandomParticles(20);
+    imac3::ParticleManager pm;
+	pm.addRandomParticles(1);
+	
+	glm::vec2 W = pm.getPosition(0);
+	std::cout << "particle is in " << W.x << ", " << W.y << std::endl;
 	
 	// CRéation des forces
 	imac3::ConstantForce gravity(glm::vec2(0, -0.01f));
 	
-	size_t count = particleManager.getNumberParticles();
+	size_t count = pm.getNumberParticles();
 	
 	imac3::LeapFrogSolver solver;
 
@@ -41,26 +44,33 @@ int main() {
 	imac3::Polygon box = imac3::Polygon::buildBox(glm::vec3(1.f, 0.f, 0.f), glm::vec2(-0.9f, -0.9f), 1.8, 1.8);
 	imac3::Polygon circle = imac3::Polygon::buildCircle(glm::vec3(0.f, 1.f, 0.f), glm::vec2(0.f, 0.2f), 0.2, 32);
 
+	// Création des forces correspondantes
+	imac3::PolygonForce boxForce(box, 1.5, solver);
+	boxForce.setDt(0.1f);
+	
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
 
 	bool done = false;
+	
     while(!done) {
         wm.startMainLoop();
 
         // Rendu
         renderer.clear();
-        particleManager.drawParticles(renderer);
+        pm.drawParticles(renderer);
 		box.draw(renderer);
 		circle.draw(renderer);
 
         // Simulation
-        imac3::ParticleState ps = solver.getNextState(2, particleManager, 0.1);
-		std::cout << "next pos : " << ps.position.x << ", " << ps.position.y << std::endl;
-		std::cout << "next speed : " << ps.velocity.x << ", " << ps.velocity.y << std::endl;
-        gravity.apply(particleManager);
-		solver.solve(particleManager, dt);
+        gravity.apply(pm);
+        //std::cout << "force buffer " << pm.getForceBuffer(0).x << ", " << pm.getForceBuffer(0).y << std::endl;
+        boxForce.apply(pm);
+        //std::cout << "force buffer " << pm.getForceBuffer(0).x << ", " << pm.getForceBuffer(0).y << std::endl;
+         
+		solver.solve(pm, dt);
 
+		
         // Gestion des evenements
 		SDL_Event e;
         while(wm.pollEvent(e)) {
@@ -75,6 +85,7 @@ int main() {
 
         // Mise à jour de la fenêtre
         dt = wm.update();
+        boxForce.setDt(dt);
 	}
 
 	return EXIT_SUCCESS;

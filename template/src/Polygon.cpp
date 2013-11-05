@@ -21,9 +21,9 @@ namespace imac3
 	{
 		Polygon poly(color, isInner);
 		poly.addVertex(position);
-		poly.addVertex(glm::vec2(position.x + height, position.y));
-		poly.addVertex(glm::vec2(position.x + height, position.y + width));
-		poly.addVertex(glm::vec2(position.x, position.y + width));
+		poly.addVertex(glm::vec2(position.x, position.y + height));
+		poly.addVertex(glm::vec2(position.x + width, position.y + height));
+		poly.addVertex(glm::vec2(position.x + width, position.y));
 		return poly;
 	}
 	
@@ -49,8 +49,9 @@ namespace imac3
 						  glm::vec2* intersection,
 						  glm::vec2* normal)
 	{
-
+		// TODO : Refaire le calcul de la normale
 		glm::vec2 normalAB( -B.y - A.y, B.x - A.x);
+		
 		glm::vec2 AP1 = P1 - A;
 		glm::vec2 P1P2 = P2 - P1;
 		float k = glm::dot(-AP1, normalAB) / glm::dot(P1P2, normalAB);
@@ -71,6 +72,22 @@ namespace imac3
 		}				
 		return false;
 	}
+	
+	size_t Polygon::getNumberVertices() const
+	{
+		return m_vertices.size();
+	}
+	
+	glm::vec2 Polygon::getVertex(size_t index) const
+	{
+		return m_vertices[index];
+	}
+	
+	bool Polygon::isInner() const
+	{
+		return m_bisinner;
+	}
+	
 
 }
 

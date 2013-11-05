@@ -69,9 +69,32 @@ CMakeFiles/PartyKel.dir/src/ParticleManager.cpp.o.provides: CMakeFiles/PartyKel.
 
 CMakeFiles/PartyKel.dir/src/ParticleManager.cpp.o.provides.build: CMakeFiles/PartyKel.dir/src/ParticleManager.cpp.o
 
+CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o: CMakeFiles/PartyKel.dir/flags.make
+CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o: ../src/PolygonForce.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o -c /home/bastien/Imac/MoteurPhysique/template/src/PolygonForce.cpp
+
+CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/bastien/Imac/MoteurPhysique/template/src/PolygonForce.cpp > CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.i
+
+CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/bastien/Imac/MoteurPhysique/template/src/PolygonForce.cpp -o CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.s
+
+CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o.requires:
+.PHONY : CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o.requires
+
+CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o.provides: CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o.provides.build
+.PHONY : CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o.provides
+
+CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o.provides.build: CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o
+
 CMakeFiles/PartyKel.dir/src/ConstantForce.cpp.o: CMakeFiles/PartyKel.dir/flags.make
 CMakeFiles/PartyKel.dir/src/ConstantForce.cpp.o: ../src/ConstantForce.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PartyKel.dir/src/ConstantForce.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PartyKel.dir/src/ConstantForce.cpp.o -c /home/bastien/Imac/MoteurPhysique/template/src/ConstantForce.cpp
 
@@ -94,7 +117,7 @@ CMakeFiles/PartyKel.dir/src/ConstantForce.cpp.o.provides.build: CMakeFiles/Party
 
 CMakeFiles/PartyKel.dir/src/renderer/ParticleRenderer2D.cpp.o: CMakeFiles/PartyKel.dir/flags.make
 CMakeFiles/PartyKel.dir/src/renderer/ParticleRenderer2D.cpp.o: ../src/renderer/ParticleRenderer2D.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PartyKel.dir/src/renderer/ParticleRenderer2D.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PartyKel.dir/src/renderer/ParticleRenderer2D.cpp.o -c /home/bastien/Imac/MoteurPhysique/template/src/renderer/ParticleRenderer2D.cpp
 
@@ -117,7 +140,7 @@ CMakeFiles/PartyKel.dir/src/renderer/ParticleRenderer2D.cpp.o.provides.build: CM
 
 CMakeFiles/PartyKel.dir/src/renderer/WindowManager.cpp.o: CMakeFiles/PartyKel.dir/flags.make
 CMakeFiles/PartyKel.dir/src/renderer/WindowManager.cpp.o: ../src/renderer/WindowManager.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PartyKel.dir/src/renderer/WindowManager.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PartyKel.dir/src/renderer/WindowManager.cpp.o -c /home/bastien/Imac/MoteurPhysique/template/src/renderer/WindowManager.cpp
 
@@ -140,7 +163,7 @@ CMakeFiles/PartyKel.dir/src/renderer/WindowManager.cpp.o.provides.build: CMakeFi
 
 CMakeFiles/PartyKel.dir/src/renderer/GLtools.cpp.o: CMakeFiles/PartyKel.dir/flags.make
 CMakeFiles/PartyKel.dir/src/renderer/GLtools.cpp.o: ../src/renderer/GLtools.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PartyKel.dir/src/renderer/GLtools.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PartyKel.dir/src/renderer/GLtools.cpp.o -c /home/bastien/Imac/MoteurPhysique/template/src/renderer/GLtools.cpp
 
@@ -163,7 +186,7 @@ CMakeFiles/PartyKel.dir/src/renderer/GLtools.cpp.o.provides.build: CMakeFiles/Pa
 
 CMakeFiles/PartyKel.dir/src/LeapFrogSolver.cpp.o: CMakeFiles/PartyKel.dir/flags.make
 CMakeFiles/PartyKel.dir/src/LeapFrogSolver.cpp.o: ../src/LeapFrogSolver.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PartyKel.dir/src/LeapFrogSolver.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PartyKel.dir/src/LeapFrogSolver.cpp.o -c /home/bastien/Imac/MoteurPhysique/template/src/LeapFrogSolver.cpp
 
@@ -186,7 +209,7 @@ CMakeFiles/PartyKel.dir/src/LeapFrogSolver.cpp.o.provides.build: CMakeFiles/Part
 
 CMakeFiles/PartyKel.dir/src/main.cpp.o: CMakeFiles/PartyKel.dir/flags.make
 CMakeFiles/PartyKel.dir/src/main.cpp.o: ../src/main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PartyKel.dir/src/main.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PartyKel.dir/src/main.cpp.o -c /home/bastien/Imac/MoteurPhysique/template/src/main.cpp
 
@@ -209,7 +232,7 @@ CMakeFiles/PartyKel.dir/src/main.cpp.o.provides.build: CMakeFiles/PartyKel.dir/s
 
 CMakeFiles/PartyKel.dir/src/Polygon.cpp.o: CMakeFiles/PartyKel.dir/flags.make
 CMakeFiles/PartyKel.dir/src/Polygon.cpp.o: ../src/Polygon.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles $(CMAKE_PROGRESS_9)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PartyKel.dir/src/Polygon.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PartyKel.dir/src/Polygon.cpp.o -c /home/bastien/Imac/MoteurPhysique/template/src/Polygon.cpp
 
@@ -233,6 +256,7 @@ CMakeFiles/PartyKel.dir/src/Polygon.cpp.o.provides.build: CMakeFiles/PartyKel.di
 # Object files for target PartyKel
 PartyKel_OBJECTS = \
 "CMakeFiles/PartyKel.dir/src/ParticleManager.cpp.o" \
+"CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o" \
 "CMakeFiles/PartyKel.dir/src/ConstantForce.cpp.o" \
 "CMakeFiles/PartyKel.dir/src/renderer/ParticleRenderer2D.cpp.o" \
 "CMakeFiles/PartyKel.dir/src/renderer/WindowManager.cpp.o" \
@@ -245,6 +269,7 @@ PartyKel_OBJECTS = \
 PartyKel_EXTERNAL_OBJECTS =
 
 PartyKel: CMakeFiles/PartyKel.dir/src/ParticleManager.cpp.o
+PartyKel: CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o
 PartyKel: CMakeFiles/PartyKel.dir/src/ConstantForce.cpp.o
 PartyKel: CMakeFiles/PartyKel.dir/src/renderer/ParticleRenderer2D.cpp.o
 PartyKel: CMakeFiles/PartyKel.dir/src/renderer/WindowManager.cpp.o
@@ -271,6 +296,7 @@ CMakeFiles/PartyKel.dir/build: PartyKel
 .PHONY : CMakeFiles/PartyKel.dir/build
 
 CMakeFiles/PartyKel.dir/requires: CMakeFiles/PartyKel.dir/src/ParticleManager.cpp.o.requires
+CMakeFiles/PartyKel.dir/requires: CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o.requires
 CMakeFiles/PartyKel.dir/requires: CMakeFiles/PartyKel.dir/src/ConstantForce.cpp.o.requires
 CMakeFiles/PartyKel.dir/requires: CMakeFiles/PartyKel.dir/src/renderer/ParticleRenderer2D.cpp.o.requires
 CMakeFiles/PartyKel.dir/requires: CMakeFiles/PartyKel.dir/src/renderer/WindowManager.cpp.o.requires

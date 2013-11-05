@@ -217,6 +217,30 @@ src/Polygon.cpp.s:
 	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/Polygon.cpp.s
 .PHONY : src/Polygon.cpp.s
 
+src/PolygonForce.o: src/PolygonForce.cpp.o
+.PHONY : src/PolygonForce.o
+
+# target to build an object file
+src/PolygonForce.cpp.o:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o
+.PHONY : src/PolygonForce.cpp.o
+
+src/PolygonForce.i: src/PolygonForce.cpp.i
+.PHONY : src/PolygonForce.i
+
+# target to preprocess a source file
+src/PolygonForce.cpp.i:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.i
+.PHONY : src/PolygonForce.cpp.i
+
+src/PolygonForce.s: src/PolygonForce.cpp.s
+.PHONY : src/PolygonForce.s
+
+# target to generate assembly for a file
+src/PolygonForce.cpp.s:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.s
+.PHONY : src/PolygonForce.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -335,6 +359,9 @@ help:
 	@echo "... src/Polygon.o"
 	@echo "... src/Polygon.i"
 	@echo "... src/Polygon.s"
+	@echo "... src/PolygonForce.o"
+	@echo "... src/PolygonForce.i"
+	@echo "... src/PolygonForce.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

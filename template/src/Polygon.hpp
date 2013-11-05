@@ -34,6 +34,10 @@ public:
 						  const glm::vec2& B,
 						  glm::vec2* intersection,
 						  glm::vec2* normal);
+						  
+	size_t getNumberVertices() const;
+	glm::vec2 getVertex(size_t index) const;
+	bool isInner() const;
 };
 
 }

@@ -1,4 +1,5 @@
 #include "LeapFrogSolver.hpp"
+#include <iostream>
 
 namespace imac3 
 {
@@ -17,8 +18,13 @@ namespace imac3
 	
 	ParticleState LeapFrogSolver::getNextState(uint32_t id, ParticleManager& pm, float dt) const
 	{
+		//std::cout << "calculate next state of particle" << pm.getPosition(id).x << ", " << pm.getPosition(id).y << std::endl;
 		glm::vec2 newSpeed = pm.getSpeed(id) + dt * pm.getForceBuffer(id)/pm.getMass(id);
+		//std::cout << "new speed is " << newSpeed.x << ", " << newSpeed.y << std::endl;
+		//std::cout << "force bufer is " << pm.getForceBuffer(id).x << ", " << pm.getForceBuffer(id).y << std::endl;
+		//std::cout << "dt " << dt << std::endl;
 		glm::vec2 newPos = pm.getPosition(id) + dt * newSpeed;
+		//std::cout << "new pos is " << newPos.x << ", " << newPos.y << std::endl;
 		return ParticleState(newPos, newSpeed);
 	}
 
