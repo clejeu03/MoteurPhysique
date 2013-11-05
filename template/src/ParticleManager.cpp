@@ -21,7 +21,7 @@ namespace imac3
     	{
     		glm::vec2 randomPos = glm::vec2(glm::linearRand(-0.8f, 0.8f), glm::linearRand(-0.8f, 0.8f));
     		glm::vec3 randomColor = glm::vec3(randomPos.x, randomPos.y, randomPos.x*randomPos.y);
-    		addParticle(randomPos, 1.f, glm::vec2(0, 0), randomColor);
+    		addParticle(randomPos, glm::linearRand(0.5f, 1.5f), glm::vec2(0, 0), glm::vec3(1, 1, 1));
     	}	
     }
     

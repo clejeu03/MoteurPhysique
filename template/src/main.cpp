@@ -13,6 +13,8 @@
 
 #include "Polygon.hpp"
 #include "PolygonForce.hpp"
+#include "HookForce.hpp"
+#include "BrakeForce.hpp"
 
 #include <vector>
 
@@ -28,10 +30,12 @@ int main() {
 
     // Création des particules
     imac3::ParticleManager pm;
-	pm.addRandomParticles(1);
-	
-	glm::vec2 W = pm.getPosition(0);
-	std::cout << "particle is in " << W.x << ", " << W.y << std::endl;
+    
+    /*pm.addParticle(glm::vec2(-0.3, 0), 1.f, glm::vec2(0.0, 0.0), glm::vec3(1, 1, 1));
+    pm.addParticle(glm::vec2(0.3, 0), 1.f, glm::vec2(0.0, 0.0), glm::vec3(1, 1, 1));
+    pm.addParticle(glm::vec2(0.0, 0.3), 1.f, glm::vec2(0.0, 0.0), glm::vec3(1, 1, 1));*/
+    
+	pm.addRandomParticles(20);
 	
 	// CRéation des forces
 	imac3::ConstantForce gravity(glm::vec2(0, -0.01f));
@@ -41,18 +45,26 @@ int main() {
 	imac3::LeapFrogSolver solver;
 
 	// Création des polygones
-	imac3::Polygon box = imac3::Polygon::buildBox(glm::vec3(1.f, 0.f, 0.f), glm::vec2(-0.9f, -0.9f), 1.8, 1.8);
-	imac3::Polygon circle = imac3::Polygon::buildCircle(glm::vec3(0.f, 1.f, 0.f), glm::vec2(0.f, 0.2f), 0.2, 32);
+	imac3::Polygon box = imac3::Polygon::buildBox(glm::vec3(1.f, 0.f, 0.f), glm::vec2(-0.9f, -0.9f), 1.8, 1.8, true);
+	imac3::Polygon circle = imac3::Polygon::buildCircle(glm::vec3(0.f, 1.f, 0.f), glm::vec2(0.f, 0.0f), 0.2, 4);
 
 	// Création des forces correspondantes
-	imac3::PolygonForce boxForce(box, 1.5, solver);
-	boxForce.setDt(0.1f);
-	
+	imac3::PolygonForce boxForce(box, 2, solver);
+	boxForce.setDt(0.01f);
+
+	imac3::PolygonForce circleForce(circle, 2, solver);
+	circleForce.setDt(0.01f);
+
+	//Systeme stable : K = 0.3 / L = 0.6
+	imac3::HookForce hookForce(0.3, 0.6);
+	imac3::BrakeForce brakeForce(0.05, 0.1);
+
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
 
 	bool done = false;
 	
+
     while(!done) {
         wm.startMainLoop();
 
@@ -63,14 +75,18 @@ int main() {
 		circle.draw(renderer);
 
         // Simulation
+
         gravity.apply(pm);
-        //std::cout << "force buffer " << pm.getForceBuffer(0).x << ", " << pm.getForceBuffer(0).y << std::endl;
+
+        hookForce.apply(pm);
+        brakeForce.apply(pm);
+
         boxForce.apply(pm);
-        //std::cout << "force buffer " << pm.getForceBuffer(0).x << ", " << pm.getForceBuffer(0).y << std::endl;
-         
+        //circleForce.apply(pm);
+
 		solver.solve(pm, dt);
 
-		
+		float KLstep = 0.1;
         // Gestion des evenements
 		SDL_Event e;
         while(wm.pollEvent(e)) {
@@ -80,12 +96,27 @@ int main() {
 				case SDL_QUIT:
 					done = true;
 					break;
+				case SDL_KEYDOWN:
+	                if(e.key.keysym.sym == SDLK_UP)
+	                    hookForce.setK(hookForce.getK() + KLstep);
+	                if(e.key.keysym.sym == SDLK_RIGHT)
+	                    hookForce.setL(hookForce.getL() + KLstep);
+	                if(e.key.keysym.sym == SDLK_DOWN)
+	                    hookForce.setK(hookForce.getK() - KLstep);
+	                if(e.key.keysym.sym == SDLK_LEFT)
+	                    hookForce.setL(hookForce.getL() - KLstep);
+                break;
 			}
 		}
+
+		std::cout << "\rK : " << hookForce.getK() << " | L = " << hookForce.getL();
 
         // Mise à jour de la fenêtre
         dt = wm.update();
         boxForce.setDt(dt);
+        circleForce.setDt(dt);
+
+        brakeForce.setDt(dt);
 	}
 
 	return EXIT_SUCCESS;

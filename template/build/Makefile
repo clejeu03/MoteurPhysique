@@ -8,7 +8,7 @@ default_target: all
 #=============================================================================
 # Special targets provided by cmake.
 
-# Disable implicit rules so canonical targets will work.
+# Disable implicit rules so canoncical targets will work.
 .SUFFIXES:
 
 # Remove some rules from gmake that .SUFFIXES does not remove.
@@ -36,10 +36,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/bastien/Imac/MoteurPhysique/template
+CMAKE_SOURCE_DIR = /home/6im3/clejeu03/Documents/MoteurPhysique/template
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/bastien/Imac/MoteurPhysique/template/build
+CMAKE_BINARY_DIR = /home/6im3/clejeu03/Documents/MoteurPhysique/template/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -66,9 +66,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/6im3/clejeu03/Documents/MoteurPhysique/template/build/CMakeFiles /home/6im3/clejeu03/Documents/MoteurPhysique/template/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/bastien/Imac/MoteurPhysique/template/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/6im3/clejeu03/Documents/MoteurPhysique/template/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -121,6 +121,30 @@ glew/fast:
 	$(MAKE) -f third-party/glew-1.10.0/CMakeFiles/glew.dir/build.make third-party/glew-1.10.0/CMakeFiles/glew.dir/build
 .PHONY : glew/fast
 
+src/BrakeForce.o: src/BrakeForce.cpp.o
+.PHONY : src/BrakeForce.o
+
+# target to build an object file
+src/BrakeForce.cpp.o:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/BrakeForce.cpp.o
+.PHONY : src/BrakeForce.cpp.o
+
+src/BrakeForce.i: src/BrakeForce.cpp.i
+.PHONY : src/BrakeForce.i
+
+# target to preprocess a source file
+src/BrakeForce.cpp.i:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/BrakeForce.cpp.i
+.PHONY : src/BrakeForce.cpp.i
+
+src/BrakeForce.s: src/BrakeForce.cpp.s
+.PHONY : src/BrakeForce.s
+
+# target to generate assembly for a file
+src/BrakeForce.cpp.s:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/BrakeForce.cpp.s
+.PHONY : src/BrakeForce.cpp.s
+
 src/ConstantForce.o: src/ConstantForce.cpp.o
 .PHONY : src/ConstantForce.o
 
@@ -144,6 +168,30 @@ src/ConstantForce.s: src/ConstantForce.cpp.s
 src/ConstantForce.cpp.s:
 	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/ConstantForce.cpp.s
 .PHONY : src/ConstantForce.cpp.s
+
+src/HookForce.o: src/HookForce.cpp.o
+.PHONY : src/HookForce.o
+
+# target to build an object file
+src/HookForce.cpp.o:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/HookForce.cpp.o
+.PHONY : src/HookForce.cpp.o
+
+src/HookForce.i: src/HookForce.cpp.i
+.PHONY : src/HookForce.i
+
+# target to preprocess a source file
+src/HookForce.cpp.i:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/HookForce.cpp.i
+.PHONY : src/HookForce.cpp.i
+
+src/HookForce.s: src/HookForce.cpp.s
+.PHONY : src/HookForce.s
+
+# target to generate assembly for a file
+src/HookForce.cpp.s:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/HookForce.cpp.s
+.PHONY : src/HookForce.cpp.s
 
 src/LeapFrogSolver.o: src/LeapFrogSolver.cpp.o
 .PHONY : src/LeapFrogSolver.o
@@ -347,9 +395,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... glew"
+	@echo "... src/BrakeForce.o"
+	@echo "... src/BrakeForce.i"
+	@echo "... src/BrakeForce.s"
 	@echo "... src/ConstantForce.o"
 	@echo "... src/ConstantForce.i"
 	@echo "... src/ConstantForce.s"
+	@echo "... src/HookForce.o"
+	@echo "... src/HookForce.i"
+	@echo "... src/HookForce.s"
 	@echo "... src/LeapFrogSolver.o"
 	@echo "... src/LeapFrogSolver.i"
 	@echo "... src/LeapFrogSolver.s"

@@ -50,8 +50,8 @@ namespace imac3
 						  glm::vec2* normal)
 	{
 		// TODO : Refaire le calcul de la normale
-		glm::vec2 normalAB( -B.y - A.y, B.x - A.x);
-		
+		glm::vec2 normalAB( -(B.y - A.y), (B.x - A.x));
+		normalAB = glm::normalize(normalAB);
 		glm::vec2 AP1 = P1 - A;
 		glm::vec2 P1P2 = P2 - P1;
 		float k = glm::dot(-AP1, normalAB) / glm::dot(P1P2, normalAB);
