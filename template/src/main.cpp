@@ -35,7 +35,7 @@ int main() {
     pm.addParticle(glm::vec2(0.3, 0), 1.f, glm::vec2(0.0, 0.0), glm::vec3(1, 1, 1));
     pm.addParticle(glm::vec2(0.0, 0.3), 1.f, glm::vec2(0.0, 0.0), glm::vec3(1, 1, 1));*/
     
-	pm.addRandomParticles(20);
+	pm.addRandomParticles(100);
 	
 	// CRéation des forces
 	imac3::ConstantForce gravity(glm::vec2(0, -0.01f));
@@ -55,9 +55,11 @@ int main() {
 	imac3::PolygonForce circleForce(circle, 2, solver);
 	circleForce.setDt(0.01f);
 
-	//Systeme stable : K = 0.3 / L = 0.6
-	imac3::HookForce hookForce(0.3, 0.6);
-	imac3::BrakeForce brakeForce(0.05, 0.1);
+	//Systeme stable pour 100 particules : 
+	// hooke K = 0.05 / L = 1.0
+	// frein cinetique v = 0.01 / dt = 0.6
+	imac3::HookForce hookForce(0.05, 1.0);
+	imac3::BrakeForce brakeForce(0.01, 0.6);
 
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
