@@ -11,6 +11,9 @@ namespace imac3
 
 class ParticleManager
 {
+
+    typedef std::vector<std::pair<unsigned int, unsigned int>> ParticleGraph;
+    
 private:
 	std::vector<glm::vec2> m_PositionArray;
     std::vector<float> m_MassArray;
@@ -26,6 +29,7 @@ public:
     void showForce(size_t index) {
     	std::cout << m_ForceBuffer[index].x << ", " << m_ForceBuffer[index].y << std::endl;
     }
+    void drawParticleGraph(ParticleGraph& graph, ParticleRenderer2D& renderer);
     
     inline glm::vec2 getSpeed(size_t index) const { return m_SpeedArray[index]; }
     inline glm::vec2 getPosition(size_t index) const { return m_PositionArray[index]; }

@@ -38,6 +38,13 @@ namespace imac3
     	m_ForceBuffer[index] = m_ForceBuffer[index] + force;
     }
     
-
+    void ParticleManager::drawParticleGraph(ParticleManager::ParticleGraph& graph, ParticleRenderer2D& renderer)
+    { 
+        renderer.drawLines(graph.size(),
+                           &graph[0],
+                           m_PositionArray.size(),
+                           &m_PositionArray[0],
+                           &m_ColorArray[0]);
+    }
 
 }
