@@ -15,6 +15,8 @@
 #include "PolygonForce.hpp"
 #include "HookForce.hpp"
 #include "BrakeForce.hpp"
+#include "GraphHookForce.hpp"
+#include "GraphBrakeForce.hpp"
 
 #include <vector>
 
@@ -30,20 +32,21 @@ int main() {
 
     // Création des particules
     imac3::ParticleManager pm;
-    
     /*pm.addParticle(glm::vec2(-0.3, 0), 1.f, glm::vec2(0.0, 0.0), glm::vec3(1, 1, 1));
     pm.addParticle(glm::vec2(0.3, 0), 1.f, glm::vec2(0.0, 0.0), glm::vec3(1, 1, 1));
     pm.addParticle(glm::vec2(0.0, 0.3), 1.f, glm::vec2(0.0, 0.0), glm::vec3(1, 1, 1));*/
-    
-	pm.addRandomParticles(100);
+	//pm.addRandomParticles(100);
 	
-	// CRéation des forces
+	//Creation d'un graph
+	imac3::ParticleGraph graph = createString(glm::vec2(-5.0, 0.0), glm::vec2(5.0, 2.0), glm::vec3(1, 1, 1), 4, pm);
+
+	// Création des forces
 	imac3::ConstantForce gravity(glm::vec2(0, -0.01f));
-	
-	size_t count = pm.getNumberParticles();
 	
 	imac3::LeapFrogSolver solver;
 
+	// SANS GRAPHE
+	/*
 	// Création des polygones
 	imac3::Polygon box = imac3::Polygon::buildBox(glm::vec3(1.f, 0.f, 0.f), glm::vec2(-0.9f, -0.9f), 1.8, 1.8, true);
 	imac3::Polygon circle = imac3::Polygon::buildCircle(glm::vec3(0.f, 1.f, 0.f), glm::vec2(0.f, 0.0f), 0.2, 4);
@@ -60,6 +63,12 @@ int main() {
 	// frein cinetique v = 0.01 / dt = 0.6
 	imac3::HookForce hookForce(0.05, 1.0);
 	imac3::BrakeForce brakeForce(0.01, 0.6);
+	*/
+
+	// AVEC GRAPHE
+	imac3::GraphHookForce graphHook(0.5f, 1.0f, &graph);
+	imac3::GraphBrakeForce graphBrake(0.01f, 0.6f, &graph);
+
 
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
@@ -73,13 +82,15 @@ int main() {
         // Rendu
         renderer.clear();
         pm.drawParticles(renderer);
-		box.draw(renderer);
-		circle.draw(renderer);
+		
+		//box.draw(renderer);
+		//circle.draw(renderer);
 
         // Simulation
-
         gravity.apply(pm);
 
+        // SANS GRAPHE
+		/*
         hookForce.apply(pm);
         brakeForce.apply(pm);
 
@@ -87,6 +98,11 @@ int main() {
         //circleForce.apply(pm);
 
 		solver.solve(pm, dt);
+		*/
+
+		// AVEC GRAPH
+		graphHook.apply(pm);
+		graphBrake.apply(pm);
 
 		float KLstep = 0.1;
         // Gestion des evenements
@@ -98,7 +114,7 @@ int main() {
 				case SDL_QUIT:
 					done = true;
 					break;
-				case SDL_KEYDOWN:
+				/*case SDL_KEYDOWN:
 	                if(e.key.keysym.sym == SDLK_UP)
 	                    hookForce.setK(hookForce.getK() + KLstep);
 	                if(e.key.keysym.sym == SDLK_RIGHT)
@@ -107,18 +123,19 @@ int main() {
 	                    hookForce.setK(hookForce.getK() - KLstep);
 	                if(e.key.keysym.sym == SDLK_LEFT)
 	                    hookForce.setL(hookForce.getL() - KLstep);
-                break;
+                break;*/
 			}
 		}
 
-		std::cout << "\rK : " << hookForce.getK() << " | L = " << hookForce.getL();
+		//std::cout << "\rK : " << hookForce.getK() << " | L = " << hookForce.getL();
 
         // Mise à jour de la fenêtre
         dt = wm.update();
-        boxForce.setDt(dt);
-        circleForce.setDt(dt);
+        //boxForce.setDt(dt);
+        //circleForce.setDt(dt);
 
-        brakeForce.setDt(dt);
+        //brakeForce.setDt(dt);
+        graphBrake.setDt(dt);
 	}
 
 	return EXIT_SUCCESS;

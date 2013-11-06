@@ -15,8 +15,8 @@ private:
 	const ParticleGraph* m_pGraph;
 
 public:
-	GraphBrakeForce(float V, float DT, float pGraph=NULL) : m_fV(V), m_fDT(DT), m_pGraph(pGraph){}
-	void apply(ParticleManager& pm);
+	GraphBrakeForce(float V, float DT, ParticleGraph* pGraph=NULL) : m_fV(V), m_fDT(DT), m_pGraph(pGraph){}
+	void apply(ParticleManager& pm);	
 
 	void setDt(float dt) {m_fDT = dt; }
 	void setGraph(const ParticleGraph* pGraph){ m_pGraph = pGraph;}

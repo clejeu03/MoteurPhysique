@@ -1,9 +1,32 @@
 #include "ParticleManager.hpp"
 
+#include <glm/glm.hpp>
+#include <glm/gtx/norm.hpp>
 #include <glm/gtc/random.hpp>
 
 namespace imac3
 {
+
+  ParticleGraph createString(glm::vec2 A, glm::vec2 B, glm::vec3 color, uint32_t discFactor, ParticleManager& particleManager)
+  {
+    ParticleGraph graph;
+    float lenghtAB = glm::l2Norm(glm::vec3(A, 0), glm::vec3(B, 0));
+    float dist = lenghtAB / (discFactor + 1 );
+
+    //Create the particules on the segment AB
+    for (int i = 0; i<= discFactor+1; ++i){
+      float x = (A.x + B.x) / (i*dist);
+      float y = (A.y + B.y) / (i*dist);
+      size_t addedParticule = particleManager.addParticle(glm::vec2(x, y), 1.f, glm::vec2(0.0, 0.0), color);
+      
+      //Link the particules into a graph
+      if (addedParticule != 0){
+        graph.push_back(std::make_pair(addedParticule-1, addedParticule));
+      }
+
+    }
+    return graph;
+  }
 
 	size_t ParticleManager::addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color)
 	{

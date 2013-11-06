@@ -6,7 +6,6 @@
 
 namespace imac3
 {
-	extern float e;
 
 class GraphHookForce : public Force
 {
@@ -16,7 +15,7 @@ private :
 	const ParticleGraph* m_pGraph;
 
 public:
-	GraphHookForce(float K, float L, float pGraph=NULL) : m_fK(K), m_fL(L), m_pGraph(pGraph){}
+	GraphHookForce(float K, float L, ParticleGraph* pGraph=NULL) : m_fK(K), m_fL(L), m_pGraph(pGraph){}
 	void apply(ParticleManager& pm);
 	
 	float getK() const { return m_fK; }

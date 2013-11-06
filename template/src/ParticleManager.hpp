@@ -41,6 +41,9 @@ public:
     inline void setForceBuffer(size_t index, glm::vec2 force) { m_ForceBuffer[index] = force; }
 };
 
+ParticleGraph createString(glm::vec2 A, glm::vec2 B, glm::vec3 color, uint32_t discFactor, ParticleManager& particleManager);
+
+
 }
 
 #endif // _H_IMAC3_PARTICLEMANAGER_H_ 
