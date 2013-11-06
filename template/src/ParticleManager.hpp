@@ -9,10 +9,10 @@
 namespace imac3
 {
 
+typedef std::vector<std::pair<unsigned int, unsigned int>> ParticleGraph;
+
 class ParticleManager
 {
-
-    typedef std::vector<std::pair<unsigned int, unsigned int>> ParticleGraph;
     
 private:
 	std::vector<glm::vec2> m_PositionArray;
