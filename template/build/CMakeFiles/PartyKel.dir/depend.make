@@ -759,6 +759,7 @@ CMakeFiles/PartyKel.dir/src/main.cpp.o: ../third-party/glm-0.9.4.6/glm/gtx/norm.
 CMakeFiles/PartyKel.dir/src/main.cpp.o: ../third-party/glm-0.9.4.6/glm/gtx/norm.inl
 CMakeFiles/PartyKel.dir/src/main.cpp.o: ../src/BrakeForce.hpp
 CMakeFiles/PartyKel.dir/src/main.cpp.o: ../src/ConstantForce.hpp
+CMakeFiles/PartyKel.dir/src/main.cpp.o: ../src/FlagGraph.hpp
 CMakeFiles/PartyKel.dir/src/main.cpp.o: ../src/Force.hpp
 CMakeFiles/PartyKel.dir/src/main.cpp.o: ../src/GraphBrakeForce.hpp
 CMakeFiles/PartyKel.dir/src/main.cpp.o: ../src/GraphHookForce.hpp

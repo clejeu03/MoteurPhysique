@@ -1,8 +1,9 @@
 #include "ParticleManager.hpp"
 
-#include <glm/glm.hpp>
 #include <glm/gtx/norm.hpp>
 #include <glm/gtc/random.hpp>
+
+#include "FlagGraph.hpp"
 
 namespace imac3
 {
@@ -59,13 +60,20 @@ namespace imac3
     	m_ForceBuffer[index] = m_ForceBuffer[index] + force;
     }
     
-    void ParticleManager::drawParticleGraph(ParticleGraph& graph, ParticleRenderer2D& renderer)
+    void ParticleManager::drawParticleGraph(const ParticleGraph& graph, ParticleRenderer2D& renderer)
     { 
         renderer.drawLines(graph.size(),
                            &graph[0],
                            m_PositionArray.size(),
                            &m_PositionArray[0],
                            &m_ColorArray[0]);
+    }
+
+    void ParticleManager::drawFlag(const FlagGraph& flag, ParticleRenderer2D& renderer)
+    {
+      drawParticleGraph(flag.getGridGraph(), renderer);
+      drawParticleGraph(flag.getDiagonalGraph(), renderer);
+      drawParticleGraph(flag.getShearGraph(), renderer);
     }
 
 }

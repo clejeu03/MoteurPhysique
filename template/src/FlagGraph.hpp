@@ -4,10 +4,11 @@
 #include <vector>
 #include <iostream>
 #include <glm/glm.hpp>
-#include "ParticleManager.hpp"
 
 namespace imac3
 {
+
+class ParticleManager;
 
 class FlagGraph
 {
@@ -17,10 +18,22 @@ private:
     ParticleGraph diagonalGraph;
     ParticleGraph shearGraph;
 public:
-    void createFlag(glm::vec2 P, float width, float height, , uint32_t discLat, uint32_t discHeight, ParticleManager& particleManager);
+    
+    inline const ParticleGraph& getGridGraph() const
+    {
+    	return gridGraph;
+    }
+    inline const ParticleGraph& getDiagonalGraph() const
+    {
+    	return diagonalGraph;
+    }
+    inline const ParticleGraph& getShearGraph() const
+    {
+    	return shearGraph;
+    }
 };
 
-
+FlagGraph createFlag(glm::vec2 P, float width, float height, uint32_t discLat, uint32_t discHeight, ParticleManager& particleManager);
 
 
 }

@@ -502,6 +502,14 @@ Force.hpp
 glm/glm.hpp
 -
 
+/home/6im3/blaby/MoteurPhysique/template/src/FlagGraph.hpp
+vector
+-
+iostream
+-
+glm/glm.hpp
+-
+
 /home/6im3/blaby/MoteurPhysique/template/src/Force.hpp
 ParticleManager.hpp
 /home/6im3/blaby/MoteurPhysique/template/src/ParticleManager.hpp
@@ -595,6 +603,8 @@ GraphHookForce.hpp
 /home/6im3/blaby/MoteurPhysique/template/src/GraphHookForce.hpp
 GraphBrakeForce.hpp
 /home/6im3/blaby/MoteurPhysique/template/src/GraphBrakeForce.hpp
+FlagGraph.hpp
+/home/6im3/blaby/MoteurPhysique/template/src/FlagGraph.hpp
 vector
 -
 
