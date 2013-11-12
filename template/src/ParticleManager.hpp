@@ -11,6 +11,16 @@ namespace imac3
 
 typedef std::vector<std::pair<unsigned int, unsigned int>> ParticleGraph;
 
+struct FlagGraph
+{
+    ParticleGraph gridGraph;
+    ParticleGraph diagonalGraph;
+    ParticleGraph shearGraph;
+
+
+
+};
+
 class ParticleManager
 {
     
@@ -41,7 +51,8 @@ public:
     inline void setForceBuffer(size_t index, glm::vec2 force) { m_ForceBuffer[index] = force; }
 };
 
-ParticleGraph createString(glm::vec2 A, glm::vec2 B, glm::vec3 color, uint32_t discFactor, ParticleManager& particleManager);
+ParticleGraph createString(glm::vec2 A, glm::vec2 B, glm::vec3 color, uint32_t nbSeg, ParticleManager& particleManager);
+FlagGraph createFlag(glm::vec2 C, float diameter, glm::vec3 color, uint32_t nbSeg, ParticleManager& particleManager);
 
 
 }

@@ -7,17 +7,15 @@
 namespace imac3
 {
 
-  ParticleGraph createString(glm::vec2 A, glm::vec2 B, glm::vec3 color, uint32_t discFactor, ParticleManager& particleManager)
+  ParticleGraph createString(glm::vec2 A, glm::vec2 B, glm::vec3 color, uint32_t nbSeg, ParticleManager& particleManager)
   {
     ParticleGraph graph;
-    float lenghtAB = glm::l2Norm(glm::vec3(A, 0), glm::vec3(B, 0));
-    float dist = lenghtAB / (discFactor + 1 );
-
-    //Create the particules on the segment AB
-    for (int i = 0; i<= discFactor+1; ++i){
-      float x = (A.x + B.x) / (i*dist);
-      float y = (A.y + B.y) / (i*dist);
-      size_t addedParticule = particleManager.addParticle(glm::vec2(x, y), 1.f, glm::vec2(0.0, 0.0), color);
+    glm::vec2 AB = B - A;
+    for (int i = 0; i < nbSeg+1; ++i)
+    {
+      float k = (float)i / (float)(nbSeg);
+      glm::vec2 P = A + k*AB;
+      size_t addedParticule = particleManager.addParticle(P, 1.f, glm::vec2(0.0, 0.0), color);
       
       //Link the particules into a graph
       if (addedParticule != 0){

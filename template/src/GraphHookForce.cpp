@@ -25,7 +25,7 @@ namespace imac3
 		}
 		*/
 		//Version with particule Graph
-		if (m_pGraph != nullptr){
+		if (m_pGraph != NULL){
 			for (ParticleGraph::const_iterator it = m_pGraph->begin() ; it != m_pGraph->end(); ++it){
 				glm::vec2 P1 = pm.getPosition(std::get<0>(*it));
 				glm::vec2 P2 = pm.getPosition(std::get<1>(*it));
