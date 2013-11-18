@@ -1,9 +1,31 @@
 #include "ParticleManager.hpp"
 
+#include <glm/gtx/norm.hpp>
 #include <glm/gtc/random.hpp>
+
+#include "FlagGraph.hpp"
 
 namespace imac3
 {
+
+  ParticleGraph createString(glm::vec2 A, glm::vec2 B, glm::vec3 color, uint32_t nbSeg, ParticleManager& particleManager)
+  {
+    ParticleGraph graph;
+    glm::vec2 AB = B - A;
+    for (int i = 0; i < nbSeg+1; ++i)
+    {
+      float k = (float)i / (float)(nbSeg);
+      glm::vec2 P = A + k*AB;
+      size_t addedParticule = particleManager.addParticle(P, 1.f, glm::vec2(0.0, 0.0), color);
+      
+      //Link the particules into a graph
+      if (addedParticule != 0){
+        graph.push_back(std::make_pair(addedParticule-1, addedParticule));
+      }
+
+    }
+    return graph;
+  }
 
 	size_t ParticleManager::addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color)
 	{
@@ -38,6 +60,20 @@ namespace imac3
     	m_ForceBuffer[index] = m_ForceBuffer[index] + force;
     }
     
+    void ParticleManager::drawParticleGraph(const ParticleGraph& graph, ParticleRenderer2D& renderer)
+    { 
+        renderer.drawLines(graph.size(),
+                           &graph[0],
+                           m_PositionArray.size(),
+                           &m_PositionArray[0],
+                           &m_ColorArray[0]);
+    }
 
+    void ParticleManager::drawFlag(const FlagGraph& flag, ParticleRenderer2D& renderer)
+    {
+      drawParticleGraph(flag.getGridGraph(), renderer);
+      drawParticleGraph(flag.getDiagonalGraph(), renderer);
+      drawParticleGraph(flag.getShearGraph(), renderer);
+    }
 
 }

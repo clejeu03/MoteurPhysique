@@ -9,8 +9,13 @@
 namespace imac3
 {
 
+class FlagGraph;
+
+typedef std::vector<std::pair<unsigned int, unsigned int>> ParticleGraph;
+
 class ParticleManager
 {
+    
 private:
 	std::vector<glm::vec2> m_PositionArray;
     std::vector<float> m_MassArray;
@@ -26,7 +31,9 @@ public:
     void showForce(size_t index) {
     	std::cout << m_ForceBuffer[index].x << ", " << m_ForceBuffer[index].y << std::endl;
     }
-    
+    void drawParticleGraph(const ParticleGraph& graph, ParticleRenderer2D& renderer);
+    void drawFlag(const FlagGraph& flag, ParticleRenderer2D& renderer);
+
     inline glm::vec2 getSpeed(size_t index) const { return m_SpeedArray[index]; }
     inline glm::vec2 getPosition(size_t index) const { return m_PositionArray[index]; }
     inline glm::vec2 getForceBuffer(size_t index) const { return m_ForceBuffer[index]; }
@@ -36,6 +43,9 @@ public:
     inline void setPosition(size_t index, glm::vec2 pos) { m_PositionArray[index] = pos; }
     inline void setForceBuffer(size_t index, glm::vec2 force) { m_ForceBuffer[index] = force; }
 };
+
+ParticleGraph createString(glm::vec2 A, glm::vec2 B, glm::vec3 color, uint32_t nbSeg, ParticleManager& particleManager);
+
 
 }
 

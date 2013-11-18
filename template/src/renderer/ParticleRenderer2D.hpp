@@ -4,6 +4,8 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
+#include <utility>
+
 namespace imac3 {
 
 class ParticleRenderer2D {
@@ -28,15 +30,25 @@ public:
                      const glm::vec3& color,
                      float lineWidth = 1.f);
 
+    void drawLines(uint32_t lineCount,
+                   const std::pair<unsigned int, unsigned int>* lines,
+                   uint32_t vertexCount,
+                   const glm::vec2* positionArray,
+                   const glm::vec3* colorArray,
+                   float lineWidth = 1.f);
+
 private:
     static const GLchar *VERTEX_SHADER, *FRAGMENT_SHADER;
     static const GLchar *POLYGON_VERTEX_SHADER, *POLYGON_FRAGMENT_SHADER;
+    static const GLchar *LINE_VERTEX_SHADER, *LINE_FRAGMENT_SHADER;
 
     // Ressources OpenGL
-    GLuint m_ProgramID, m_PolygonProgramID;
+    GLuint m_ProgramID, m_PolygonProgramID, m_LineProgramID;
     GLuint m_VBOID, m_VAOID;
 
     GLuint m_PolygonVBOID, m_PolygonVAOID;
+
+    GLuint m_LinePositionVBOID, m_LineColorVBOID, m_LineIBOID, m_LineVAOID;
 
     // Uniform locations
     GLint m_uParticleColor;
