@@ -4,7 +4,7 @@
 namespace imac3
 {
 
-	FlagGraph createFlag(glm::vec2 P, float width, float height, , uint32_t discLat, uint32_t discHeight, ParticleManager& particleManager)
+	FlagGraph createFlag(glm::vec2 P, float width, float height, uint32_t discLat, uint32_t discHeight, ParticleManager& particleManager)
 	{
 
 		FlagGraph flag;

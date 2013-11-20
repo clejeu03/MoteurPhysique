@@ -4,11 +4,10 @@
 #include <vector>
 #include <iostream>
 #include <glm/glm.hpp>
+#include "ParticleManager.hpp"
 
 namespace imac3
 {
-
-class ParticleManager;
 
 class FlagGraph
 {
