@@ -32,7 +32,7 @@ public:
     	std::cout << m_ForceBuffer[index].x << ", " << m_ForceBuffer[index].y << std::endl;
     }
     void drawParticleGraph(const ParticleGraph& graph, ParticleRenderer2D& renderer);
-    void drawFlag(const FlagGraph& flag, ParticleRenderer2D& renderer);
+    void drawFlagGraph(const FlagGraph& flag, ParticleRenderer2D& renderer);
 
     inline glm::vec2 getSpeed(size_t index) const { return m_SpeedArray[index]; }
     inline glm::vec2 getPosition(size_t index) const { return m_PositionArray[index]; }

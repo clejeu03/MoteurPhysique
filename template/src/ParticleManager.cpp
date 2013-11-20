@@ -69,11 +69,11 @@ namespace imac3
                            &m_ColorArray[0]);
     }
 
-    void ParticleManager::drawFlag(const FlagGraph& flag, ParticleRenderer2D& renderer)
+    void ParticleManager::drawFlagGraph(const FlagGraph& flag, ParticleRenderer2D& renderer)
     {
       drawParticleGraph(flag.getGridGraph(), renderer);
-      drawParticleGraph(flag.getDiagonalGraph(), renderer);
-      drawParticleGraph(flag.getShearGraph(), renderer);
+      //drawParticleGraph(flag.getDiagonalGraph(), renderer);
+      //drawParticleGraph(flag.getShearGraph(), renderer);
     }
 
 }

@@ -17,19 +17,14 @@ private:
     ParticleGraph diagonalGraph;
     ParticleGraph shearGraph;
 public:
+    inline const ParticleGraph& getGridGraph() const{return gridGraph;}
+    inline const ParticleGraph& getDiagonalGraph() const{return diagonalGraph;}
+    inline const ParticleGraph& getShearGraph() const{return shearGraph;}
+    inline void setGridGraph(ParticleGraph grid){gridGraph = grid;}
+    inline void setDiagonalGraph(ParticleGraph diagonal){diagonalGraph = diagonal;}
+    inline void setShearGraph(ParticleGraph shear){shearGraph = shear;}
     
-    inline const ParticleGraph& getGridGraph() const
-    {
-    	return gridGraph;
-    }
-    inline const ParticleGraph& getDiagonalGraph() const
-    {
-    	return diagonalGraph;
-    }
-    inline const ParticleGraph& getShearGraph() const
-    {
-    	return shearGraph;
-    }
+
 };
 
 FlagGraph createFlag(glm::vec2 P, float width, float height, uint32_t discLat, uint32_t discHeight, ParticleManager& particleManager);
