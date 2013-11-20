@@ -37,8 +37,7 @@ int main() {
 	
 	//Creation d'un graph
 	imac3::ParticleGraph graph = createString(glm::vec2(-0.7, 0.3), glm::vec2(0.3, -0.55), glm::vec3(1, 1, 1), 3, pm);
-    /*imac3::FlagGraph flag;
-    flag.createFlag(glm::vec2(0.f, 0.f), 0.3f, 0.3f, 5, 5, pm);*/
+    imac3::FlagGraph flag = createFlag(glm::vec2(0.f, 0.f), 0.3f, 0.3f, 5, 5, pm);
 
 	// Création des forces
 	imac3::ConstantForce gravity(glm::vec2(0, -0.01f));
@@ -71,8 +70,8 @@ int main() {
         renderer.clear();
         pm.drawParticles(renderer);
         //pm.drawParticleGraph(graph, renderer);
-        //pm.drawFlag(flag, renderer);
-		//box.draw(renderer);
+        pm.drawFlag(flag, renderer);
+		box.draw(renderer);
 		//circle.draw(renderer);
 
         // Application des forces
