@@ -36,7 +36,7 @@ int main() {
     imac3::ParticleManager pm;
 	
 	//Creation d'un graph
-	imac3::ParticleGraph graph = createString(glm::vec2(-0.7, 0.3), glm::vec2(0.3, -0.55), glm::vec3(1, 1, 1), 3, pm);
+	//imac3::ParticleGraph graph = createString(glm::vec2(-0.7, 0.3), glm::vec2(0.3, -0.55), glm::vec3(1, 1, 1), 3, pm);
     imac3::FlagGraph flag = createFlag(glm::vec2(0.f, 0.f), 0.5f, 0.5f, 5, 5, pm);
 
 	// Création des forces
@@ -54,8 +54,8 @@ int main() {
 	circleForce.setDt(0.01f);
 	
 	// Forces cinétiques
-	imac3::GraphHookForce graphHook(0.1f, 0.6f, &graph);
-	imac3::GraphBrakeForce graphBrake(0.01f, 0.6f, &graph);
+	//imac3::GraphHookForce graphHook(0.1f, 0.6f, &graph);
+	//imac3::GraphBrakeForce graphBrake(0.01f, 0.6f, &graph);
 
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
@@ -69,7 +69,7 @@ int main() {
         // Rendu
         renderer.clear();
         pm.drawParticles(renderer);
-        pm.drawParticleGraph(graph, renderer);
+        //pm.drawParticleGraph(graph, renderer);
         pm.drawFlagGraph(flag, renderer);
 		box.draw(renderer);
 		//circle.draw(renderer);

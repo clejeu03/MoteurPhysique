@@ -29,7 +29,6 @@ public:
 
 FlagGraph createFlag(glm::vec2 P, float width, float height, uint32_t discLat, uint32_t discHeight, ParticleManager& particleManager);
 
-
 }
 
 #endif // _H_IMAC3_FLAGGRAPH_H_ 
