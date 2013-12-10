@@ -20,13 +20,18 @@ using namespace imac3;
 // K est la résistance du ressort et L sa longueur à vide
 inline glm::vec3 hookForce(float K, float L, const glm::vec3& P1, const glm::vec3& P2) {
     static const float epsilon = 0.0001;
-    // TODO
+    glm::vec3 P1P2 = P2 - P1;
+    float distP1P2 = glm::l2Norm(P1P2);
+    return K * (1 - ( L / glm::max( distP1P2 , e ))) * P1P2;
 }
 
 // Calcule une force de type frein cinétique entre deux particules de vélocités v1 et v2
 // V est le paramètre du frein et dt le pas temporel
 inline glm::vec3 brakeForce(float V, float dt, const glm::vec3& v1, const glm::vec3& v2) {
-    // TODO
+    if(dt > 0)
+    {
+        return V * ((V2-V1) / dt);
+    }
 }
 
 // Structure permettant de simuler un drapeau à l'aide un système masse-ressort
