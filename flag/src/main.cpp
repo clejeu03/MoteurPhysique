@@ -98,13 +98,17 @@ struct Flag {
 
             const bool top_border = (j==0)?true:false;
             const bool right_border = ((i+1)%gridWidth == 0)?true:false;
-            const bool bottom_border = (j==gridHeight-1)?true:false;
+            const bool bottom_border = ((j+1)==gridHeight)?true:false;
+            const bool horizontal_penultimate = ((i+2)%gridWidth == 0)?true:false;
+            const bool vertical_penultimate = ((j+2)==gridHeight)?true:false;
+            const bool horizontal_second = ((i-1)%gridWidth== 0)?true:false;
+            const bool vertical_second = ((j-1)%gridHeight== 0)?true:false;
 
             // On applique les force que si la particule n'est pas fixe
             if(i != 0)
             {
-                // Apply grid forces (cf topology 1 at http://igm.univ-mlv.fr/~lnoel/index.php?section=teaching/physic_engines&teaching_section=tds&td=td4#drapeau)
-                
+                // GRID FORCES (cf topology 0)
+
                 // Horizontal
                 // Liaison avec le voisin de gauche
                 forceArray[k] += hookForce(K0, L0.x, positionArray[k], positionArray[k-1]);
@@ -136,9 +140,9 @@ struct Flag {
                     forceArray[k] += brakeForce(V0, dt, velocityArray[k], velocityArray[k+gridWidth]); 
                 }
 
-                // Apply diagonal forces (cf topology 2 at http://igm.univ-mlv.fr/~lnoel/index.php?section=teaching/physic_engines&teaching_section=tds&td=td4#drapeau)
-                // Si c'est une particule de la première ligne
-                if(top_border)
+                // DIAGONAL FORCES (cf topology 1)
+
+                if(top_border) // Si c'est une particule de la première ligne
                 {
                     // Liaison avec le voisin en bas-gauche
                     forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k+gridWidth-1]);
@@ -150,7 +154,7 @@ struct Flag {
                         forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k+gridWidth+1]);
                     }
                 }
-                else if(bottom_border)
+                else if(bottom_border) // Sinon si c'est une particule de la dernière ligne
                 {
                     // Liaison avec le voisin en haut-gauche
                     forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k-gridWidth-1]);
@@ -168,8 +172,7 @@ struct Flag {
                     forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k-gridWidth-1]);
                     forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k+gridWidth-1]);
                     forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k+gridWidth-1]);
-                    // Et haut-droite bas-droite si ce n'est pas un point à l'extremité
-                    if(!right_border)
+                    if(!right_border) // Et haut-droite bas-droite si ce n'est pas un point à l'extremité du drapeau
                     {
                         forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k-gridWidth+1]);
                         forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k-gridWidth+1]);
@@ -178,8 +181,43 @@ struct Flag {
                     }
                 }
 
-                // Apply grid forces (cf topology 1 at http://igm.univ-mlv.fr/~lnoel/index.php?section=teaching/physic_engines&teaching_section=tds&td=td4#drapeau)
-                // TODO
+                // SHEAR FORCES (cf topology 2)
+
+                if(top_border || vertical_second)
+                {
+                    forceArray[k] += hookForce(K2, L2.y, positionArray[k], positionArray[k+2*gridWidth]);
+                    forceArray[k] += brakeForce(V2, dt, velocityArray[k], velocityArray[k+2*gridWidth]);
+                }
+                else if(bottom_border || vertical_penultimate)
+                {
+                    forceArray[k] += hookForce(K2, L2.y, positionArray[k], positionArray[k-2*gridWidth]);
+                    forceArray[k] += brakeForce(V2, dt, velocityArray[k], velocityArray[k-2*gridWidth]);
+                }
+                else
+                {
+                    forceArray[k] += hookForce(K2, L2.y, positionArray[k], positionArray[k+2*gridWidth]);
+                    forceArray[k] += brakeForce(V2, dt, velocityArray[k], velocityArray[k+2*gridWidth]);
+                    forceArray[k] += hookForce(K2, L2.y, positionArray[k], positionArray[k-2*gridWidth]);
+                    forceArray[k] += brakeForce(V2, dt, velocityArray[k], velocityArray[k-2*gridWidth]);
+                }
+
+                if(horizontal_second)
+                {
+                    forceArray[k] += hookForce(K2, L2.x, positionArray[k], positionArray[k+2]);
+                    forceArray[k] += brakeForce(V2, dt, velocityArray[k], velocityArray[k+2]);
+                }
+                else if(right_border || horizontal_penultimate)
+                {
+                    forceArray[k] += hookForce(K2, L2.x, positionArray[k], positionArray[k-2]);
+                    forceArray[k] += brakeForce(V2, dt, velocityArray[k], velocityArray[k-2]);
+                }
+                else
+                {
+                    forceArray[k] += hookForce(K2, L2.x, positionArray[k], positionArray[k+2]);
+                    forceArray[k] += brakeForce(V2, dt, velocityArray[k], velocityArray[k+2]);
+                    forceArray[k] += hookForce(K2, L2.x, positionArray[k], positionArray[k-2]);
+                    forceArray[k] += brakeForce(V2, dt, velocityArray[k], velocityArray[k-2]);
+                }
             }
         }
     }
