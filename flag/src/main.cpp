@@ -54,6 +54,25 @@ struct Flag {
     float K0, K1, K2; // Paramètres de résistance
     float V0, V1, V2; // Paramètres de frein
 
+    void setK0(float k) { K0 = k; }
+    float getK0() { return K0; }
+
+    void setK1(float k) { K1 = k; }
+    float getK1() { return K1; }
+
+    void setK2(float k) { K2 = k; }
+    float getK2() { return K2; }
+
+    void setL0(glm::vec2 l) { L0 = l; }
+    glm::vec2 getL0() { return L0; }
+
+    void setL1(float l) { L1 = l; }
+    float getL1() { return L1; }
+
+    void setL2(glm::vec2 l) { L2 = l; }
+    glm::vec2 getL2() { return L2; }
+    
+
     // Créé un drapeau discretisé sous la forme d'une grille contenant gridWidth * gridHeight
     // points. Chaque point a pour masse mass / (gridWidth * gridHeight).
     // La taille du drapeau en 3D est spécifié par les paramètres width et height
@@ -251,7 +270,7 @@ int main() {
     wm.setFramerate(30);
 
     Flag flag(4096.f, 2, 1.5, 32, 16); // Création d'un drapeau
-    glm::vec3 G(0.f, -0.001f, 0.f); // Gravité
+    glm::vec3 G(0.f, -0.01f, 0.f); // Gravité
 
     FlagRenderer3D renderer(flag.gridWidth, flag.gridHeight);
     renderer.setProjMatrix(glm::perspective(70.f, float(WINDOW_WIDTH) / WINDOW_HEIGHT, 0.1f, 100.f));
