@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/random.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/norm.hpp>
 
 #include "renderer/WindowManager.hpp"
 #include "renderer/FlagRenderer3D.hpp"
@@ -21,13 +22,13 @@ using namespace imac3;
 inline glm::vec3 hookForce(float K, float L, const glm::vec3& P1, const glm::vec3& P2) {
     static const float epsilon = 0.0001;
     glm::vec3 P1P2 = P2 - P1;
-    float distP1P2 = glm::l2Norm(P1P2);
-    return K * (1 - ( L / glm::max( distP1P2 , e ))) * P1P2;
+    float distP1P2 = glm::length(P1P2);
+    return K * (1 - ( L / glm::max( distP1P2 , epsilon ))) * P1P2;
 }
 
 // Calcule une force de type frein cinétique entre deux particules de vélocités v1 et v2
 // V est le paramètre du frein et dt le pas temporel
-inline glm::vec3 brakeForce(float V, float dt, const glm::vec3& v1, const glm::vec3& v2) {
+inline glm::vec3 brakeForce(float V, float dt, const glm::vec3& V1, const glm::vec3& V2) {
     if(dt > 0)
     {
         return V * ((V2-V1) / dt);
@@ -90,23 +91,26 @@ struct Flag {
 
     // Applique les forces internes sur chaque point du drapeau SAUF les points fixes
     void applyInternalForces(float dt) {
-        for (size_t k = 0; k < count; ++k){
+        for (size_t k = 0; k < gridWidth*gridHeight; ++k){
             
             size_t i = k%gridWidth;
             size_t j = k/gridWidth;
 
+            const bool top_border = (j==0)?true:false;
+            const bool right_border = ((i+1)%gridWidth == 0)?true:false;
+            const bool bottom_border = (j==gridHeight-1)?true:false;
+
             // On applique les force que si la particule n'est pas fixe
             if(i != 0)
             {
-
                 // Apply grid forces (cf topology 1 at http://igm.univ-mlv.fr/~lnoel/index.php?section=teaching/physic_engines&teaching_section=tds&td=td4#drapeau)
                 
                 // Horizontal
                 // Liaison avec le voisin de gauche
-                forceArray[k] += hookForce(K0, L0.x, positionArray[k-1], positionArray[k]);
-                forceArray[k] += brakeForce(V0, dt, velocityArray[k-1], velocityArray[k]);
+                forceArray[k] += hookForce(K0, L0.x, positionArray[k], positionArray[k-1]);
+                forceArray[k] += brakeForce(V0, dt, velocityArray[k], velocityArray[k-1]);
                 // Liaison avec le voisin de droite uniquement si la particule n'est pas à l'extremité du drapeau
-                if((i+1)/gridWidth != 0)
+                if(!right_border)
                 {
                     forceArray[k] += hookForce(K0, L0.x, positionArray[k], positionArray[k+1]);
                     forceArray[k] += brakeForce(V0, dt, velocityArray[k], velocityArray[k+1]);
@@ -114,26 +118,65 @@ struct Flag {
 
                 // Vertical
                 // Si c'est une particule en haut, on fait une liaison avec son voisin du bas uniquement
-                if(j == 0)
+                if(top_border)
                 {
                     forceArray[k] += hookForce(K0, L0.y, positionArray[k], positionArray[k+gridWidth]);
                     forceArray[k] += brakeForce(V0, dt, velocityArray[k], velocityArray[k+gridWidth]);
                 }
-                else if((j+1)/gridHeight == 0) // Sinon, si c'est une particule en bas, on fait une liaison avec son voisin du haut uniquement
+                else if(bottom_border) // Sinon, si c'est une particule en bas, on fait une liaison avec son voisin du haut uniquement
                 {
-                    forceArray[k] += hookForce(K0, L0.y, positionArray[k-gridWidth], positionArray[k]);
-                    forceArray[k] += brakeForce(V0, dt, velocityArray[k-gridWidth], velocityArray[k]);
+                    forceArray[k] += hookForce(K0, L0.y, positionArray[k], positionArray[k-gridWidth]);
+                    forceArray[k] += brakeForce(V0, dt, velocityArray[k], velocityArray[k-gridWidth]);
                 }
                 else // Sinon c'est une particule au milieu donc on fait une liaison avec le voisin du haut et le voisin du bas
                 {
-                    forceArray[k] += hookForce(K0, L0.y, positionArray[k-gridWidth], positionArray[k]);
-                    forceArray[k] += brakeForce(V0, dt, velocityArray[k-gridWidth], velocityArray[k]);
+                    forceArray[k] += hookForce(K0, L0.y, positionArray[k], positionArray[k-gridWidth]);
+                    forceArray[k] += brakeForce(V0, dt, velocityArray[k], velocityArray[k-gridWidth]);
                     forceArray[k] += hookForce(K0, L0.y, positionArray[k], positionArray[k+gridWidth]);
                     forceArray[k] += brakeForce(V0, dt, velocityArray[k], velocityArray[k+gridWidth]); 
                 }
 
-                // Apply diagonal forces (cf topology 1 at http://igm.univ-mlv.fr/~lnoel/index.php?section=teaching/physic_engines&teaching_section=tds&td=td4#drapeau)
-                // TODO
+                // Apply diagonal forces (cf topology 2 at http://igm.univ-mlv.fr/~lnoel/index.php?section=teaching/physic_engines&teaching_section=tds&td=td4#drapeau)
+                // Si c'est une particule de la première ligne
+                if(top_border)
+                {
+                    // Liaison avec le voisin en bas-gauche
+                    forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k+gridWidth-1]);
+                    forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k+gridWidth-1]);
+                    // Liaison avec le voisin bas-droite uniquement si la particule n'est pas à l'extremité du drapeau
+                    if(!right_border)
+                    {
+                        forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k+gridWidth+1]);
+                        forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k+gridWidth+1]);
+                    }
+                }
+                else if(bottom_border)
+                {
+                    // Liaison avec le voisin en haut-gauche
+                    forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k-gridWidth-1]);
+                    forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k-gridWidth-1]);
+                    // Liaison avec le voisin haut-droite uniquement si la particule n'est pas à l'extremité du drapeau
+                    if(!right_border)
+                    {
+                        forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k-gridWidth+1]);
+                        forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k-gridWidth+1]);
+                    }
+                }
+                else // Sinon c'est une particule au milieu donc on fait une liaison avec les voisins haut-gauche bas-gauche
+                {
+                    forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k-gridWidth-1]);
+                    forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k-gridWidth-1]);
+                    forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k+gridWidth-1]);
+                    forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k+gridWidth-1]);
+                    // Et haut-droite bas-droite si ce n'est pas un point à l'extremité
+                    if(!right_border)
+                    {
+                        forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k-gridWidth+1]);
+                        forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k-gridWidth+1]);
+                        forceArray[k] += hookForce(K1, L1, positionArray[k], positionArray[k+gridWidth+1]);
+                        forceArray[k] += brakeForce(V1, dt, velocityArray[k], velocityArray[k+gridWidth+1]);
+                    }
+                }
 
                 // Apply grid forces (cf topology 1 at http://igm.univ-mlv.fr/~lnoel/index.php?section=teaching/physic_engines&teaching_section=tds&td=td4#drapeau)
                 // TODO
@@ -143,11 +186,11 @@ struct Flag {
 
     // Applique une force externe sur chaque point du drapeau SAUF les points fixes
     void applyExternalForce(const glm::vec3& F) {
-        for (size_t k = 0; k < count; ++k){
+        for (size_t k = 0; k < gridWidth*gridHeight; ++k){
             // On applique la force que si la particule n'est pas fixe
             if(k%gridWidth != 0)
             {
-                forceArray[i] += F;
+                forceArray[k] += F;
             }
         }
     }
@@ -155,15 +198,13 @@ struct Flag {
     // Met à jour la vitesse et la position de chaque point du drapeau
     // en utilisant un schema de type Leapfrog
     void update(float dt) {
-        // TODO
-        // Ne pas oublier de remettre les forces à 0 !
-        /*for (size_t i = 0; i < count; ++i){
-            glm::vec3 newSpeed = velocityArray[i] + dt * forceArray[i]/massArray[i];
-            glm::vec3 newPos = positionArray[i] + dt * newSpeed;
-            velocityArray[i] = newSpeed;
-            positionArray[i] = newPos;
-            forceArray[i] = 0;
-        }*/
+        for (size_t k = 0; k < gridWidth*gridHeight; ++k){
+            glm::vec3 newSpeed = velocityArray[k] + dt * forceArray[k]/massArray[k];
+            glm::vec3 newPos = positionArray[k] + dt * newSpeed;
+            velocityArray[k] = newSpeed;
+            positionArray[k] = newPos;
+            forceArray[k] = glm::vec3(0, 0, 0);
+        }
     }
 };
 
