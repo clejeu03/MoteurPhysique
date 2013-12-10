@@ -63,6 +63,15 @@ struct Flag {
     void setK2(float k) { K2 = k; }
     float getK2() { return K2; }
 
+    void setV0(float v) { V0 = v; }
+    float getV0() { return V0; }
+
+    void setV1(float v) { V1 = v; }
+    float getV1() { return V1; }
+
+    void setV2(float v) { V2 = v; }
+    float getV2() { return V2; }
+
     void setL0(glm::vec2 l) { L0 = l; }
     glm::vec2 getL0() { return L0; }
 
