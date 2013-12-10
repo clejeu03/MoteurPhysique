@@ -90,7 +90,13 @@ struct Flag {
 
     // Applique une force externe sur chaque point du drapeau SAUF les points fixes
     void applyExternalForce(const glm::vec3& F) {
-        // TODO
+        for (size_t k = 0; k < count; ++k){
+            // On applique la force que si la particule est fixe
+            if(k%gridWidth != 0)
+            {
+                forceArray[i] += F;
+            }
+        }
     }
 
     // Met à jour la vitesse et la position de chaque point du drapeau
@@ -98,6 +104,13 @@ struct Flag {
     void update(float dt) {
         // TODO
         // Ne pas oublier de remettre les forces à 0 !
+        /*for (size_t i = 0; i < count; ++i){
+            glm::vec3 newSpeed = velocityArray[i] + dt * forceArray[i]/massArray[i];
+            glm::vec3 newPos = positionArray[i] + dt * newSpeed;
+            velocityArray[i] = newSpeed;
+            positionArray[i] = newPos;
+            forceArray[i] = 0;
+        }*/
     }
 };
 
