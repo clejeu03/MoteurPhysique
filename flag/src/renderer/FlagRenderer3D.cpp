@@ -222,6 +222,8 @@ void FlagRenderer3D::drawGrid(const glm::vec3* positionArray, bool wireframe) {
     glBindVertexArray(m_VAOID);
         glDrawElements(GL_TRIANGLES, m_nIndexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glUseProgram(0);
 }
 
 }

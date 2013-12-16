@@ -13,8 +13,10 @@ Flag::Flag(float mass, float width, float height, int gridWidth, int gridHeight)
 	glm::vec3 origin(-0.5f * width, -0.5f * height, 0.f);
 	glm::vec3 scale(width / (gridWidth - 1), height / (gridHeight - 1), 1.f);
 
-	for(int j = 0; j < gridHeight; ++j) {
-	    for(int i = 0; i < gridWidth; ++i) {
+	for(int j = 0; j < gridHeight; ++j)
+    {
+	    for(int i = 0; i < gridWidth; ++i)
+        {
 	        positionArray[i + j * gridWidth] = origin + glm::vec3(i, j, origin.z) * scale;
 	    }
 	}
@@ -27,7 +29,7 @@ Flag::Flag(float mass, float width, float height, int gridWidth, int gridHeight)
 	L2 = 2.f * L0;
 
 	// Ces paramètres sont à fixer pour avoir un système stable: HAVE FUN !
-	K0 = 2.0f;
+	K0 = 1.0f;
 	K1 = 1.0f;
 	K2 = 1.0f;
 
@@ -37,8 +39,10 @@ Flag::Flag(float mass, float width, float height, int gridWidth, int gridHeight)
 }
 
 // Applique les forces internes sur chaque point du drapeau SAUF les points fixes
-void Flag::applyInternalForces(float dt) {
-    for (size_t k = 0; k < gridWidth*gridHeight; ++k){
+void Flag::applyInternalForces(float dt)
+{
+    for (size_t k = 0; k < gridWidth*gridHeight; ++k)
+    {
         
         size_t i = k%gridWidth;
         size_t j = k/gridWidth;
@@ -170,8 +174,10 @@ void Flag::applyInternalForces(float dt) {
 }
 
 // Applique une force externe sur chaque point du drapeau SAUF les points fixes
-void Flag::applyExternalForce(const glm::vec3& F) {
-    for (size_t k = 0; k < gridWidth*gridHeight; ++k){
+void Flag::applyExternalForce(const glm::vec3& F)
+{
+    for (size_t k = 0; k < gridWidth*gridHeight; ++k)
+    {
         // On applique la force que si la particule n'est pas fixe
         if(k%gridWidth != 0)
         {
@@ -180,8 +186,10 @@ void Flag::applyExternalForce(const glm::vec3& F) {
     }
 }
 
-void Flag::update(float dt) {
-    for (size_t k = 0; k < gridWidth*gridHeight; ++k){
+void Flag::update(float dt)
+{
+    for (size_t k = 0; k < gridWidth*gridHeight; ++k)
+    {
         glm::vec3 newSpeed = velocityArray[k] + dt * forceArray[k]/massArray[k];
         glm::vec3 newPos = positionArray[k] + dt * newSpeed;
         velocityArray[k] = newSpeed;
@@ -192,7 +200,8 @@ void Flag::update(float dt) {
 
 // Calcule une force de type ressort de Hook entre deux particules de positions P1 et P2
 // K est la résistance du ressort et L sa longueur à vide
-inline glm::vec3 hookForce(float K, float L, const glm::vec3& P1, const glm::vec3& P2) {
+inline glm::vec3 hookForce(float K, float L, const glm::vec3& P1, const glm::vec3& P2)
+{
     static const float epsilon = 0.0001;
     glm::vec3 P1P2 = P2 - P1;
     float distP1P2 = glm::length(P1P2);
@@ -201,7 +210,8 @@ inline glm::vec3 hookForce(float K, float L, const glm::vec3& P1, const glm::vec
 
 // Calcule une force de type frein cinétique entre deux particules de vélocités v1 et v2
 // V est le paramètre du frein et dt le pas temporel
-inline glm::vec3 brakeForce(float V, float dt, const glm::vec3& V1, const glm::vec3& V2) {
+inline glm::vec3 brakeForce(float V, float dt, const glm::vec3& V1, const glm::vec3& V2)
+{
     if(dt > 0)
     {
         return V * ((V2-V1) / dt);
