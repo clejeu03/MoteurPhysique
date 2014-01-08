@@ -25,7 +25,7 @@ static const Uint32 WINDOW_HEIGHT = 512;
 
 
 int main() {
-    imac3::WindowManager wm(WINDOW_WIDTH, WINDOW_HEIGHT, "Newton was a Geek");
+    imac3::WindowManager wm(WINDOW_WIDTH, WINDOW_HEIGHT, "Newton Pendulum");
     wm.setFramerate(30);
 
     imac3::ParticleRenderer2D renderer;
