@@ -3,6 +3,7 @@
 
 #include "Force.hpp"
 #include "ParticleManager.hpp"
+#include "Pendulum.hpp"
 
 namespace imac3
 {
@@ -18,6 +19,7 @@ private :
 public:
 	HookForce(float K, float L) : m_fK(K), m_fL(L){}
 	void apply(ParticleManager& pm);
+	void applyToPendulum(Pendulum& pendulum, ParticleManager& pm);
 	
 	float getK() const { return m_fK; }
 	float getL() const { return m_fL; }
