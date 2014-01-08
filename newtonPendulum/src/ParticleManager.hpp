@@ -9,8 +9,6 @@
 namespace imac3
 {
 
-class FlagGraph;
-
 typedef std::vector<std::pair<unsigned int, unsigned int>> ParticleGraph;
 
 class ParticleManager
@@ -22,17 +20,14 @@ private:
     std::vector<glm::vec2> m_SpeedArray;
     std::vector<glm::vec3> m_ColorArray;
     std::vector<glm::vec2> m_ForceBuffer;
+    std::vector<bool> m_ForceImmune;
 public:
-    size_t addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color);
+    size_t addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color, bool isImmune = false);
     void addRandomParticles(unsigned int count);
     void drawParticles(ParticleRenderer2D& renderer); 
     void applyTo(size_t index, glm::vec2 force);
     inline size_t getNumberParticles() const { return m_PositionArray.size(); }
-    void showForce(size_t index) {
-    	std::cout << m_ForceBuffer[index].x << ", " << m_ForceBuffer[index].y << std::endl;
-    }
     void drawParticleGraph(const ParticleGraph& graph, ParticleRenderer2D& renderer);
-    void drawFlagGraph(const FlagGraph& flag, ParticleRenderer2D& renderer);
 
     inline glm::vec2 getSpeed(size_t index) const { return m_SpeedArray[index]; }
     inline glm::vec2 getPosition(size_t index) const { return m_PositionArray[index]; }
@@ -44,7 +39,8 @@ public:
     inline void setForceBuffer(size_t index, glm::vec2 force) { m_ForceBuffer[index] = force; }
 };
 
-ParticleGraph createString(glm::vec2 A, glm::vec2 B, glm::vec3 color, uint32_t nbSeg, ParticleManager& particleManager);
+ParticleGraph createStringGraph(glm::vec2 A, glm::vec2 B, glm::vec3 color, ParticleManager& particleManager);
+ParticleGraph createCircleGraph(glm::vec2 C, float radius, glm::vec3 color, uint32_t nbSeg, ParticleManager& particleManager);
 
 
 }

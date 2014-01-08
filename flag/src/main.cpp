@@ -54,10 +54,43 @@ int main()
     while(!done)
     {
 
+    	int mouseX, mouseY;
+
         wm.startMainLoop();
 
-        // Rendu
         renderer.clear();
+
+        // GUI
+
+        int scrollarea1 = 0;
+
+        float k0 = flag.getK0();
+        float l0X = flag.getL0().x;
+        float l0Y = flag.getL0().y;
+        float v0 = flag.getV0();
+
+		glDisable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        imguiBeginFrame(mouseX, mouseY, 0, 0);
+            imguiBeginScrollArea("Animation", 10, 10, WINDOW_WIDTH / 5, WINDOW_HEIGHT - 20, &scrollarea1);
+                imguiButton("Reset Animation");
+                imguiLabel("Topology 0 parameters");
+                imguiSlider("K0", &k0, 0.f, 10.f, 0.01f);
+            imguiEndScrollArea();
+        imguiEndFrame();
+
+        flag.setK0(k0);
+        flag.setL0(glm::vec2(l0X, l0Y));
+        flag.setV0(v0);
+
+        imguiRenderGLDraw(WINDOW_WIDTH, WINDOW_HEIGHT); 
+
+        glDisable(GL_BLEND);
+
+        // Render
+
         renderer.setViewMatrix(camera.getViewMatrix());
         renderer.drawGrid(flag.positionArray.data(), wireframe);
 
@@ -122,7 +155,7 @@ int main()
 			}
 		}
 
-        int mouseX, mouseY;
+        
         if(SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_RIGHT))
         {
             int dX = mouseX - mouseLastX, dY = mouseY - mouseLastY;
@@ -134,32 +167,9 @@ int main()
 
         // GUI
 
-        int scrollarea1 = 0;
+        
 
-        float k0 = flag.getK0();
-        float l0X = flag.getL0().x;
-        float l0Y = flag.getL0().y;
-        float v0 = flag.getV0();
-
-        glDisable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        imguiBeginFrame(mouseX, mouseY, 0, 0);
-            imguiBeginScrollArea("Animation", 10, 10, WINDOW_WIDTH / 5, WINDOW_HEIGHT - 20, &scrollarea1);
-                imguiButton("Reset Animation");
-                imguiLabel("Topology 0 parameters");
-                imguiSlider("K0", &k0, 0.f, 10.f, 0.01f);
-            imguiEndScrollArea();
-        imguiEndFrame();
-
-        flag.setK0(k0);
-        flag.setL0(glm::vec2(l0X, l0Y));
-        flag.setV0(v0);
-
-        imguiRenderGLDraw(WINDOW_WIDTH, WINDOW_HEIGHT); 
-
-        glDisable(GL_BLEND);
+        
 
         // Mise à jour de la fenêtre
         dt = wm.update();

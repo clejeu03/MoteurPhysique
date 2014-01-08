@@ -18,8 +18,6 @@
 #include "GraphHookForce.hpp"
 #include "GraphBrakeForce.hpp"
 
-#include "FlagGraph.hpp"
-
 #include <vector>
 
 static const Uint32 WINDOW_WIDTH = 512;
@@ -34,52 +32,48 @@ int main() {
 
     // Création des particules
     imac3::ParticleManager pm;
-	
-	//Creation d'un graph
-	//imac3::ParticleGraph graph = createString(glm::vec2(-0.7, 0.3), glm::vec2(0.3, -0.55), glm::vec3(1, 1, 1), 3, pm);
-    imac3::FlagGraph flag = createFlag(glm::vec2(0.f, 0.f), 0.5f, 0.5f, 5, 5, pm);
 
 	// Création des forces
 	imac3::ConstantForce gravity(glm::vec2(0, -0.01f));
 
 	imac3::LeapFrogSolver solver;
 	
-	// Création des polygones et forces correspondantes
-	imac3::Polygon box = imac3::Polygon::buildBox(glm::vec3(1.f, 0.f, 0.f), glm::vec2(-0.9f, -0.9f), 1.8, 1.8, true);
-	imac3::PolygonForce boxForce(box, 2, solver);
-	boxForce.setDt(0.01f);
+	imac3::ParticleGraph circleGraph1 = imac3::createCircleGraph(glm::vec2(-0.6,0), 0.15f, glm::vec3(1.f, 0.f, 0.f), 50, pm); 
+	imac3::ParticleGraph circleGraph2 = imac3::createCircleGraph(glm::vec2(-0.3,0), 0.15f, glm::vec3(0.f, 1.f, 0.f), 50, pm); 
+	imac3::ParticleGraph circleGraph3 = imac3::createCircleGraph(glm::vec2(0,0), 0.15f, glm::vec3(0.f, 0.f, 1.f), 50, pm); 
+	imac3::ParticleGraph circleGraph4 = imac3::createCircleGraph(glm::vec2(0.3,0), 0.15f, glm::vec3(1.f, 1.f, 0.f), 50, pm); 
+	imac3::ParticleGraph circleGraph5 = imac3::createCircleGraph(glm::vec2(0.6,0), 0.15f, glm::vec3(1.f, 0.f, 1.f), 50, pm);
 
-	imac3::Polygon circle = imac3::Polygon::buildCircle(glm::vec3(0.f, 1.f, 0.f), glm::vec2(0.f, 0.0f), 0.2, 4);
-	imac3::PolygonForce circleForce(circle, 2, solver);
-	circleForce.setDt(0.01f);
-	
-	// Forces cinétiques
-	//imac3::GraphHookForce graphHook(0.1f, 0.6f, &graph);
-	//imac3::GraphBrakeForce graphBrake(0.01f, 0.6f, &graph);
-
+	imac3::ParticleGraph string1 = imac3::createStringGraph(glm::vec2(-0.6, 1), glm::vec2(-0.6, 0), glm::vec3(1.f, 1.f, 1.f), pm);
+	imac3::ParticleGraph string2 = imac3::createStringGraph(glm::vec2(-0.3, 1), glm::vec2(-0.3, 0), glm::vec3(1.f, 1.f, 1.f), pm);
+	imac3::ParticleGraph string3 = imac3::createStringGraph(glm::vec2(0, 1), glm::vec2(0, 0), glm::vec3(1.f, 1.f, 1.f), pm);
+	imac3::ParticleGraph string4 = imac3::createStringGraph(glm::vec2(0.3, 1), glm::vec2(0.3, 0), glm::vec3(1.f, 1.f, 1.f), pm);
+	imac3::ParticleGraph string5 = imac3::createStringGraph(glm::vec2(0.6, 1), glm::vec2(0.6, 0), glm::vec3(1.f, 1.f, 1.f), pm);
+ 
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
-
 	bool done = false;
-	
-
     while(!done) {
         wm.startMainLoop();
 
         // Rendu
         renderer.clear();
         pm.drawParticles(renderer);
-        //pm.drawParticleGraph(graph, renderer);
-        pm.drawFlagGraph(flag, renderer);
-		box.draw(renderer);
-		//circle.draw(renderer);
+
+		pm.drawParticleGraph(circleGraph1, renderer);
+		pm.drawParticleGraph(circleGraph2, renderer);
+		pm.drawParticleGraph(circleGraph3, renderer);
+		pm.drawParticleGraph(circleGraph4, renderer);
+		pm.drawParticleGraph(circleGraph5, renderer);
+
+		pm.drawParticleGraph(string1, renderer);
+		pm.drawParticleGraph(string2, renderer);
+		pm.drawParticleGraph(string3, renderer);
+		pm.drawParticleGraph(string4, renderer);
+		pm.drawParticleGraph(string5, renderer);
 
         // Application des forces
-        //gravity.apply(pm);
-        //boxForce.apply(pm);
-        //circleForce.apply(pm);
-		//graphHook.apply(pm);
-		//graphBrake.apply(pm);
+        gravity.apply(pm);
 
         // Solve
 		solver.solve(pm, dt);
@@ -110,9 +104,6 @@ int main() {
 
         // Mise à jour de la fenêtre
         dt = wm.update();
-        //boxForce.setDt(dt);
-        //circleForce.setDt(dt);
-        //graphBrake.setDt(dt);
 	}
 
 	return EXIT_SUCCESS;
