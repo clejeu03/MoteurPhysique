@@ -61,6 +61,7 @@ int main() {
 
         // Application des forces
         gravity.apply(pm);
+        pendulum.apply(pm);
         //hookForce.applyToPendulum(pendulum, pm);
         //brakeForce.apply(pm);
 

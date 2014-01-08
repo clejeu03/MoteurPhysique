@@ -36,6 +36,17 @@ namespace imac3
 		}
 		return poly;
 	}
+
+	void Polygon::setCirclePos(glm::vec2 pos, size_t radius)
+	{
+		size_t discFactor = m_vertices.size() - 1;
+		m_vertices.clear();
+
+		for(size_t i = 0; i < discFactor; ++i)
+		{
+			addVertex(pos + glm::vec2(radius*cos(i*2*PI/discFactor), radius*sin(i*2*PI/discFactor)));
+		}
+	}
 	
 	void Polygon::draw(ParticleRenderer2D& renderer, float lineWidth) const
 	{

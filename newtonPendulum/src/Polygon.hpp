@@ -38,6 +38,8 @@ public:
 	size_t getNumberVertices() const;
 	glm::vec2 getVertex(size_t index) const;
 	bool isInner() const;
+
+	void setCirclePos(glm::vec2 pos, size_t radius);
 };
 
 }
