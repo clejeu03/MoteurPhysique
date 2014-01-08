@@ -23,6 +23,8 @@
 static const Uint32 WINDOW_WIDTH = 512;
 static const Uint32 WINDOW_HEIGHT = 512;
 
+static const Uint32 CIRCLE_SEGMENTS_NUMBER = 20;
+
 
 int main() {
     imac3::WindowManager wm(WINDOW_WIDTH, WINDOW_HEIGHT, "Newton Pendulum");
@@ -38,18 +40,17 @@ int main() {
 
 	imac3::LeapFrogSolver solver;
 	
-	imac3::ParticleGraph circleGraph1 = imac3::createCircleGraph(glm::vec2(-0.6,0), 0.15f, glm::vec3(1.f, 0.f, 0.f), 20, pm); 
-	imac3::ParticleGraph circleGraph2 = imac3::createCircleGraph(glm::vec2(-0.3,0), 0.15f, glm::vec3(0.f, 1.f, 0.f), 20, pm); 
-	imac3::ParticleGraph circleGraph3 = imac3::createCircleGraph(glm::vec2(0,0), 0.15f, glm::vec3(0.f, 0.f, 1.f), 20, pm); 
-	imac3::ParticleGraph circleGraph4 = imac3::createCircleGraph(glm::vec2(0.3,0), 0.15f, glm::vec3(1.f, 1.f, 0.f), 20, pm); 
-	imac3::ParticleGraph circleGraph5 = imac3::createCircleGraph(glm::vec2(0.6,0), 0.15f, glm::vec3(1.f, 0.f, 1.f), 20, pm);
-
-	imac3::ParticleGraph string1 = imac3::createStringGraph(glm::vec2(-0.6, 1), glm::vec2(-0.6, 0), glm::vec3(1.f, 1.f, 1.f), pm);
-	imac3::ParticleGraph string2 = imac3::createStringGraph(glm::vec2(-0.3, 1), glm::vec2(-0.3, 0), glm::vec3(1.f, 1.f, 1.f), pm);
-	imac3::ParticleGraph string3 = imac3::createStringGraph(glm::vec2(0, 1), glm::vec2(0, 0), glm::vec3(1.f, 1.f, 1.f), pm);
-	imac3::ParticleGraph string4 = imac3::createStringGraph(glm::vec2(0.3, 1), glm::vec2(0.3, 0), glm::vec3(1.f, 1.f, 1.f), pm);
-	imac3::ParticleGraph string5 = imac3::createStringGraph(glm::vec2(0.6, 1), glm::vec2(0.6, 0), glm::vec3(1.f, 1.f, 1.f), pm);
- 
+	imac3::ParticleGraph circleGraph1 = imac3::createCircleGraph(glm::vec2(-0.6,0), 0.15f, glm::vec3(1.f, 0.f, 0.f), CIRCLE_SEGMENTS_NUMBER, pm); 
+	imac3::ParticleGraph circleGraph2 = imac3::createCircleGraph(glm::vec2(-0.3,0), 0.15f, glm::vec3(0.f, 1.f, 0.f), CIRCLE_SEGMENTS_NUMBER, pm); 
+	imac3::ParticleGraph circleGraph3 = imac3::createCircleGraph(glm::vec2(0,0), 0.15f, glm::vec3(0.f, 0.f, 1.f), CIRCLE_SEGMENTS_NUMBER, pm); 
+	imac3::ParticleGraph circleGraph4 = imac3::createCircleGraph(glm::vec2(0.3,0), 0.15f, glm::vec3(1.f, 1.f, 0.f), CIRCLE_SEGMENTS_NUMBER, pm); 
+	imac3::ParticleGraph circleGraph5 = imac3::createCircleGraph(glm::vec2(0.6,0), 0.15f, glm::vec3(1.f, 0.f, 1.f), CIRCLE_SEGMENTS_NUMBER, pm);
+	
+	imac3::ParticleGraph string1 = imac3::createStringGraph(glm::vec2(-0.6, 1), 0, glm::vec3(1.f, 1.f, 1.f), pm);
+	imac3::ParticleGraph string2 = imac3::createStringGraph(glm::vec2(-0.3, 1), 1 * (CIRCLE_SEGMENTS_NUMBER), glm::vec3(1.f, 1.f, 1.f), pm);
+	imac3::ParticleGraph string3 = imac3::createStringGraph(glm::vec2(0, 1), 2 * (CIRCLE_SEGMENTS_NUMBER ), glm::vec3(1.f, 1.f, 1.f), pm);
+	imac3::ParticleGraph string4 = imac3::createStringGraph(glm::vec2(0.3, 1), 3 * ( CIRCLE_SEGMENTS_NUMBER ), glm::vec3(1.f, 1.f, 1.f), pm);
+	imac3::ParticleGraph string5 = imac3::createStringGraph(glm::vec2(0.6, 1), 4 *  ( CIRCLE_SEGMENTS_NUMBER ), glm::vec3(1.f, 1.f, 1.f), pm);
 	//Systeme stable pour 100 particules :
     // hooke K = 0.05 / L = 1.0
     // frein cinetique v = 0.01 / dt = 0.6

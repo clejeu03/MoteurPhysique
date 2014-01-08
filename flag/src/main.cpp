@@ -155,8 +155,13 @@ int main()
 			}
 		}
 
+<<<<<<< HEAD
         
         if(SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_RIGHT))
+=======
+        int mouseX, mouseY;
+        if(SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
+>>>>>>> parent of f253502... Add some features. Warning : I can't get the imgui focus for the moment :(
         {
             int dX = mouseX - mouseLastX, dY = mouseY - mouseLastY;
             camera.rotateLeft(dX);
@@ -168,8 +173,29 @@ int main()
         // GUI
 
         
+<<<<<<< HEAD
 
         
+=======
+
+        glDisable(GL_DEPTH_TEST);
+
+        int scrollarea1 = 0;
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+        imguiBeginFrame(mouseX, mouseY, 0, 0);
+            imguiBeginScrollArea("Scroll area", 10, 10, WINDOW_WIDTH / 5, WINDOW_HEIGHT - 20, &scrollarea1);
+                imguiButton("Button");
+            imguiEndScrollArea();
+        imguiEndFrame();
+
+        imguiRenderGLDraw(WINDOW_WIDTH, WINDOW_HEIGHT); 
+
+        glDisable(GL_BLEND);
+>>>>>>> parent of f253502... Add some features. Warning : I can't get the imgui focus for the moment :(
 
         // Mise à jour de la fenêtre
         dt = wm.update();
