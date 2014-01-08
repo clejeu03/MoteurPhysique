@@ -17,6 +17,7 @@
 #include "BrakeForce.hpp"
 #include "GraphHookForce.hpp"
 #include "GraphBrakeForce.hpp"
+#include "Pendulum.hpp"
 
 #include <vector>
 
@@ -39,17 +40,19 @@ int main() {
 
 	imac3::LeapFrogSolver solver;
 	
-	imac3::ParticleGraph circleGraph1 = imac3::createCircleGraph(glm::vec2(-0.6,0), 0.15f, glm::vec3(1.f, 0.f, 0.f), CIRCLE_SEGMENTS_NUMBER, pm); 
-	imac3::ParticleGraph circleGraph2 = imac3::createCircleGraph(glm::vec2(-0.3,0), 0.15f, glm::vec3(0.f, 1.f, 0.f), CIRCLE_SEGMENTS_NUMBER, pm); 
-	imac3::ParticleGraph circleGraph3 = imac3::createCircleGraph(glm::vec2(0,0), 0.15f, glm::vec3(0.f, 0.f, 1.f), CIRCLE_SEGMENTS_NUMBER, pm); 
-	imac3::ParticleGraph circleGraph4 = imac3::createCircleGraph(glm::vec2(0.3,0), 0.15f, glm::vec3(1.f, 1.f, 0.f), CIRCLE_SEGMENTS_NUMBER, pm); 
-	imac3::ParticleGraph circleGraph5 = imac3::createCircleGraph(glm::vec2(0.6,0), 0.15f, glm::vec3(1.f, 0.f, 1.f), CIRCLE_SEGMENTS_NUMBER, pm);
+	// imac3::ParticleGraph circleGraph1 = imac3::createCircleGraph(glm::vec2(-0.6,0), 0.15f, glm::vec3(1.f, 0.f, 0.f), CIRCLE_SEGMENTS_NUMBER, pm); 
+	// imac3::ParticleGraph circleGraph2 = imac3::createCircleGraph(glm::vec2(-0.3,0), 0.15f, glm::vec3(0.f, 1.f, 0.f), CIRCLE_SEGMENTS_NUMBER, pm); 
+	// imac3::ParticleGraph circleGraph3 = imac3::createCircleGraph(glm::vec2(0,0), 0.15f, glm::vec3(0.f, 0.f, 1.f), CIRCLE_SEGMENTS_NUMBER, pm); 
+	// imac3::ParticleGraph circleGraph4 = imac3::createCircleGraph(glm::vec2(0.3,0), 0.15f, glm::vec3(1.f, 1.f, 0.f), CIRCLE_SEGMENTS_NUMBER, pm); 
+	// imac3::ParticleGraph circleGraph5 = imac3::createCircleGraph(glm::vec2(0.6,0), 0.15f, glm::vec3(1.f, 0.f, 1.f), CIRCLE_SEGMENTS_NUMBER, pm);
 
-	imac3::ParticleGraph string1 = imac3::createStringGraph(glm::vec2(-0.6, 1), 0, glm::vec3(1.f, 1.f, 1.f), pm);
-	imac3::ParticleGraph string2 = imac3::createStringGraph(glm::vec2(-0.3, 1), 1 * (CIRCLE_SEGMENTS_NUMBER), glm::vec3(1.f, 1.f, 1.f), pm);
-	imac3::ParticleGraph string3 = imac3::createStringGraph(glm::vec2(0, 1), 2 * (CIRCLE_SEGMENTS_NUMBER ), glm::vec3(1.f, 1.f, 1.f), pm);
-	imac3::ParticleGraph string4 = imac3::createStringGraph(glm::vec2(0.3, 1), 3 * ( CIRCLE_SEGMENTS_NUMBER ), glm::vec3(1.f, 1.f, 1.f), pm);
-	imac3::ParticleGraph string5 = imac3::createStringGraph(glm::vec2(0.6, 1), 4 *  ( CIRCLE_SEGMENTS_NUMBER ), glm::vec3(1.f, 1.f, 1.f), pm);
+	// imac3::ParticleGraph string1 = imac3::createStringGraph(glm::vec2(-0.6, 1), 0, glm::vec3(1.f, 1.f, 1.f), pm);
+	// imac3::ParticleGraph string2 = imac3::createStringGraph(glm::vec2(-0.3, 1), 1 * (CIRCLE_SEGMENTS_NUMBER), glm::vec3(1.f, 1.f, 1.f), pm);
+	// imac3::ParticleGraph string3 = imac3::createStringGraph(glm::vec2(0, 1), 2 * (CIRCLE_SEGMENTS_NUMBER ), glm::vec3(1.f, 1.f, 1.f), pm);
+	// imac3::ParticleGraph string4 = imac3::createStringGraph(glm::vec2(0.3, 1), 3 * ( CIRCLE_SEGMENTS_NUMBER ), glm::vec3(1.f, 1.f, 1.f), pm);
+	// imac3::ParticleGraph string5 = imac3::createStringGraph(glm::vec2(0.6, 1), 4 *  ( CIRCLE_SEGMENTS_NUMBER ), glm::vec3(1.f, 1.f, 1.f), pm);
+
+	imac3::Pendulum pendulum(5, 20, pm);
  
 	//Systeme stable pour 100 particules :
     // hooke K = 0.05 / L = 1.0
@@ -67,21 +70,22 @@ int main() {
         renderer.clear();
         pm.drawParticles(renderer);
 
-		pm.drawParticleGraph(circleGraph1, renderer);
-		pm.drawParticleGraph(circleGraph2, renderer);
-		pm.drawParticleGraph(circleGraph3, renderer);
-		pm.drawParticleGraph(circleGraph4, renderer);
-		pm.drawParticleGraph(circleGraph5, renderer);
+        pendulum.draw(pm, renderer);
+		// pm.drawParticleGraph(circleGraph1, renderer);
+		// pm.drawParticleGraph(circleGraph2, renderer);
+		// pm.drawParticleGraph(circleGraph3, renderer);
+		// pm.drawParticleGraph(circleGraph4, renderer);
+		// pm.drawParticleGraph(circleGraph5, renderer);
 
-		pm.drawParticleGraph(string1, renderer);
-		pm.drawParticleGraph(string2, renderer);
-		pm.drawParticleGraph(string3, renderer);
-		pm.drawParticleGraph(string4, renderer);
-		pm.drawParticleGraph(string5, renderer);
+		// pm.drawParticleGraph(string1, renderer);
+		// pm.drawParticleGraph(string2, renderer);
+		// pm.drawParticleGraph(string3, renderer);
+		// pm.drawParticleGraph(string4, renderer);
+		// pm.drawParticleGraph(string5, renderer);
 
         // Application des forces
         gravity.apply(pm);
-        hookForce.apply(pm);
+        hookForce.applyToPendulum(pendulum, pm);
         //brakeForce.apply(pm);
 
         // Solve

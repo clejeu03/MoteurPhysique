@@ -17,7 +17,7 @@ namespace imac3
     ParticleGraph graph;
 
     size_t indexA = particleManager.addParticle(A, 1.f, glm::vec2(0.0, 0.0), color, true); 
-    std::cout << "string index : " << indexA << " and " << stringIndex << std::endl;
+    std::cout << "INDEX : " << indexA << " and " << stringIndex << std::endl;
     //Link the particules into a graph
     graph.push_back(std::make_pair(indexA, stringIndex));
 
@@ -46,6 +46,7 @@ namespace imac3
       }
       if (addedParticule == circleInitialIndex + nbSeg-1)
       {
+        //std::cout << "circle indexes : " << circleInitialIndex << " / " << addedParticule<< std::endl;;
         graph.push_back(std::make_pair(addedParticule, addedParticule-nbSeg+1));
       }
     }
