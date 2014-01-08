@@ -11,16 +11,15 @@
 namespace imac3
 {
 
-  ParticleGraph createStringGraph(glm::vec2 A, glm::vec2 B, glm::vec3 color, ParticleManager& particleManager)
+  ParticleGraph createStringGraph(glm::vec2 A, size_t stringIndex, glm::vec3 color, ParticleManager& particleManager)
   {
 
     ParticleGraph graph;
 
-    size_t indexA = particleManager.addParticle(A, 1.f, glm::vec2(0.0, 0.0), color, true);
-    size_t indexB = particleManager.addParticle(B, 1.f, glm::vec2(0.0, 0.0), color);
-    std::cout << "string index : " << indexA << " and " << indexB << std::endl;
+    size_t indexA = particleManager.addParticle(A, 1.f, glm::vec2(0.0, 0.0), color, true); 
+    std::cout << "string index : " << indexA << " and " << stringIndex << std::endl;
     //Link the particules into a graph
-    graph.push_back(std::make_pair(indexA, indexB));
+    graph.push_back(std::make_pair(indexA, stringIndex));
 
     return graph;
   }
@@ -35,9 +34,10 @@ namespace imac3
       exit(EXIT_FAILURE);
     }
     size_t addedParticule;
+    float angularStep = 2*PI/nbSeg;
     for (int i = 0; i < nbSeg; ++i)
     {
-      glm::vec2 P(C.x + radius * cos(i*2*PI/nbSeg), C.y + radius * sin(i*2*PI/nbSeg));
+      glm::vec2 P(C.x + radius * cos(PI/2.f + i*angularStep), C.y + radius * sin(PI/2.f + i*angularStep));
       addedParticule = particleManager.addParticle(P, 1.f, glm::vec2(0.0, 0.0), color);
       //Link the particules into a graph
       if (addedParticule != circleInitialIndex)

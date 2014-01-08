@@ -39,7 +39,7 @@ public:
     inline void setForceBuffer(size_t index, glm::vec2 force) { m_ForceBuffer[index] = force; }
 };
 
-ParticleGraph createStringGraph(glm::vec2 A, glm::vec2 B, glm::vec3 color, ParticleManager& particleManager);
+ParticleGraph createStringGraph(glm::vec2 A, size_t stringIndex, glm::vec3 color, ParticleManager& particleManager);
 ParticleGraph createCircleGraph(glm::vec2 C, float radius, glm::vec3 color, uint32_t nbSeg, ParticleManager& particleManager);
 
 
