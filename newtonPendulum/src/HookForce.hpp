@@ -6,6 +6,7 @@
 
 namespace imac3
 {
+	extern int PENDULUM_NUMBER;
 	extern float e;
 
 class HookForce : public Force

@@ -38,11 +38,11 @@ int main() {
 
 	imac3::LeapFrogSolver solver;
 	
-	imac3::ParticleGraph circleGraph1 = imac3::createCircleGraph(glm::vec2(-0.6,0), 0.15f, glm::vec3(1.f, 0.f, 0.f), 50, pm); 
-	imac3::ParticleGraph circleGraph2 = imac3::createCircleGraph(glm::vec2(-0.3,0), 0.15f, glm::vec3(0.f, 1.f, 0.f), 50, pm); 
-	imac3::ParticleGraph circleGraph3 = imac3::createCircleGraph(glm::vec2(0,0), 0.15f, glm::vec3(0.f, 0.f, 1.f), 50, pm); 
-	imac3::ParticleGraph circleGraph4 = imac3::createCircleGraph(glm::vec2(0.3,0), 0.15f, glm::vec3(1.f, 1.f, 0.f), 50, pm); 
-	imac3::ParticleGraph circleGraph5 = imac3::createCircleGraph(glm::vec2(0.6,0), 0.15f, glm::vec3(1.f, 0.f, 1.f), 50, pm);
+	imac3::ParticleGraph circleGraph1 = imac3::createCircleGraph(glm::vec2(-0.6,0), 0.15f, glm::vec3(1.f, 0.f, 0.f), 20, pm); 
+	imac3::ParticleGraph circleGraph2 = imac3::createCircleGraph(glm::vec2(-0.3,0), 0.15f, glm::vec3(0.f, 1.f, 0.f), 20, pm); 
+	imac3::ParticleGraph circleGraph3 = imac3::createCircleGraph(glm::vec2(0,0), 0.15f, glm::vec3(0.f, 0.f, 1.f), 20, pm); 
+	imac3::ParticleGraph circleGraph4 = imac3::createCircleGraph(glm::vec2(0.3,0), 0.15f, glm::vec3(1.f, 1.f, 0.f), 20, pm); 
+	imac3::ParticleGraph circleGraph5 = imac3::createCircleGraph(glm::vec2(0.6,0), 0.15f, glm::vec3(1.f, 0.f, 1.f), 20, pm);
 
 	imac3::ParticleGraph string1 = imac3::createStringGraph(glm::vec2(-0.6, 1), glm::vec2(-0.6, 0), glm::vec3(1.f, 1.f, 1.f), pm);
 	imac3::ParticleGraph string2 = imac3::createStringGraph(glm::vec2(-0.3, 1), glm::vec2(-0.3, 0), glm::vec3(1.f, 1.f, 1.f), pm);
@@ -50,6 +50,12 @@ int main() {
 	imac3::ParticleGraph string4 = imac3::createStringGraph(glm::vec2(0.3, 1), glm::vec2(0.3, 0), glm::vec3(1.f, 1.f, 1.f), pm);
 	imac3::ParticleGraph string5 = imac3::createStringGraph(glm::vec2(0.6, 1), glm::vec2(0.6, 0), glm::vec3(1.f, 1.f, 1.f), pm);
  
+	//Systeme stable pour 100 particules :
+    // hooke K = 0.05 / L = 1.0
+    // frein cinetique v = 0.01 / dt = 0.6
+    imac3::HookForce hookForce(0.05, 1.0);
+    //imac3::BrakeForce brakeForce(0.01, 0.6);
+
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
 	bool done = false;
@@ -74,6 +80,8 @@ int main() {
 
         // Application des forces
         gravity.apply(pm);
+        hookForce.apply(pm);
+        //brakeForce.apply(pm);
 
         // Solve
 		solver.solve(pm, dt);
@@ -104,6 +112,8 @@ int main() {
 
         // Mise à jour de la fenêtre
         dt = wm.update();
+
+        //brakeForce.setDt(dt);
 	}
 
 	return EXIT_SUCCESS;

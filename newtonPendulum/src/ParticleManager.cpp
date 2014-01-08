@@ -18,7 +18,7 @@ namespace imac3
 
     size_t indexA = particleManager.addParticle(A, 1.f, glm::vec2(0.0, 0.0), color, true);
     size_t indexB = particleManager.addParticle(B, 1.f, glm::vec2(0.0, 0.0), color);
-
+    std::cout << "string index : " << indexA << " and " << indexB << std::endl;
     //Link the particules into a graph
     graph.push_back(std::make_pair(indexA, indexB));
 
