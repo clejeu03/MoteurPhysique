@@ -11,9 +11,6 @@
 
 #include "Flag.hpp"
 
-#include "imgui.h"
-#include "imguiRenderGL3.h"
-
 #include <vector>
 #include <ostream>
 
@@ -36,18 +33,10 @@ int main()
 
     TrackballCamera camera;
     int mouseLastX, mouseLastY;
+    int mouseX = 0, mouseY = 0;
 
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
-    
-    if (!imguiRenderGLInit("../fonts/DroidSans.ttf"))
-        {
-            fprintf(stderr, "Could not init GUI renderer.\n");
-            exit(EXIT_FAILURE);
-        }
-
-    int scrollarea1 = 0;
-
 	bool done = false;
     bool wireframe = true;
 
@@ -55,21 +44,20 @@ int main()
     {
 
         wm.startMainLoop();
-
+ 
         // Rendu
         renderer.clear();
         renderer.setViewMatrix(camera.getViewMatrix());
         renderer.drawGrid(flag.positionArray.data(), wireframe);
 
         glm::vec3 windForce(0.01, glm::linearRand(0.0f, 0.01f), glm::linearRand(0.0f, 0.01f));
-        //windForce.rotate
 
         // Simulation
         if(dt > 0.f)
         {
             flag.applyExternalForce(G); // Applique la gravité
             flag.applyExternalForce(windForce);
-            //flag.applyExternalForce(glm::sphericalRand(0.05f)); // Applique un "vent" de direction aléatoire et de force 0.1 Newtons
+            flag.applyExternalForce(glm::sphericalRand(0.05f)); // Applique un "vent" de direction aléatoire et de force 0.1 Newtons
             flag.applyInternalForces(dt); // Applique les forces internes
             flag.update(dt); // Mise à jour du système à partir des forces appliquées
         }
@@ -122,7 +110,7 @@ int main()
 			}
 		}
 
-        int mouseX, mouseY;
+        
         if(SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_RIGHT))
         {
             int dX = mouseX - mouseLastX, dY = mouseY - mouseLastY;
@@ -132,40 +120,9 @@ int main()
             mouseLastY = mouseY;
         }
 
-        // GUI
-
-        int scrollarea1 = 0;
-
-        float k0 = flag.getK0();
-        float l0X = flag.getL0().x;
-        float l0Y = flag.getL0().y;
-        float v0 = flag.getV0();
-
-        glDisable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        imguiBeginFrame(mouseX, mouseY, 0, 0);
-            imguiBeginScrollArea("Animation", 10, 10, WINDOW_WIDTH / 5, WINDOW_HEIGHT - 20, &scrollarea1);
-                imguiButton("Reset Animation");
-                imguiLabel("Topology 0 parameters");
-                imguiSlider("K0", &k0, 0.f, 10.f, 0.01f);
-            imguiEndScrollArea();
-        imguiEndFrame();
-
-        flag.setK0(k0);
-        flag.setL0(glm::vec2(l0X, l0Y));
-        flag.setV0(v0);
-
-        imguiRenderGLDraw(WINDOW_WIDTH, WINDOW_HEIGHT); 
-
-        glDisable(GL_BLEND);
-
         // Mise à jour de la fenêtre
         dt = wm.update();
 	}
-
-    imguiRenderGLDestroy();
 
 	return EXIT_SUCCESS;
 }
