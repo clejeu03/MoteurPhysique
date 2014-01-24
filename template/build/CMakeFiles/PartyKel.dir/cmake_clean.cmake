@@ -11,6 +11,7 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/PartyKel.dir/src/GraphBrakeForce.cpp.o"
   "CMakeFiles/PartyKel.dir/src/HookForce.cpp.o"
   "CMakeFiles/PartyKel.dir/src/PolygonForce.cpp.o"
+  "CMakeFiles/PartyKel.dir/src/FlagGraph.cpp.o"
   "CMakeFiles/PartyKel.dir/src/GraphHookForce.cpp.o"
   "PartyKel.pdb"
   "PartyKel"

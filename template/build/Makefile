@@ -36,10 +36,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/6im3/blaby/MoteurPhysique/template
+CMAKE_SOURCE_DIR = /home/6im3/blaby/dev/MoteurPhysique/template
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/6im3/blaby/MoteurPhysique/template/build
+CMAKE_BINARY_DIR = /home/6im3/blaby/dev/MoteurPhysique/template/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -66,9 +66,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/6im3/blaby/MoteurPhysique/template/build/CMakeFiles /home/6im3/blaby/MoteurPhysique/template/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/6im3/blaby/dev/MoteurPhysique/template/build/CMakeFiles /home/6im3/blaby/dev/MoteurPhysique/template/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/6im3/blaby/MoteurPhysique/template/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/6im3/blaby/dev/MoteurPhysique/template/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -168,6 +168,30 @@ src/ConstantForce.s: src/ConstantForce.cpp.s
 src/ConstantForce.cpp.s:
 	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/ConstantForce.cpp.s
 .PHONY : src/ConstantForce.cpp.s
+
+src/FlagGraph.o: src/FlagGraph.cpp.o
+.PHONY : src/FlagGraph.o
+
+# target to build an object file
+src/FlagGraph.cpp.o:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/FlagGraph.cpp.o
+.PHONY : src/FlagGraph.cpp.o
+
+src/FlagGraph.i: src/FlagGraph.cpp.i
+.PHONY : src/FlagGraph.i
+
+# target to preprocess a source file
+src/FlagGraph.cpp.i:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/FlagGraph.cpp.i
+.PHONY : src/FlagGraph.cpp.i
+
+src/FlagGraph.s: src/FlagGraph.cpp.s
+.PHONY : src/FlagGraph.s
+
+# target to generate assembly for a file
+src/FlagGraph.cpp.s:
+	$(MAKE) -f CMakeFiles/PartyKel.dir/build.make CMakeFiles/PartyKel.dir/src/FlagGraph.cpp.s
+.PHONY : src/FlagGraph.cpp.s
 
 src/GraphBrakeForce.o: src/GraphBrakeForce.cpp.o
 .PHONY : src/GraphBrakeForce.o
@@ -449,6 +473,9 @@ help:
 	@echo "... src/ConstantForce.o"
 	@echo "... src/ConstantForce.i"
 	@echo "... src/ConstantForce.s"
+	@echo "... src/FlagGraph.o"
+	@echo "... src/FlagGraph.i"
+	@echo "... src/FlagGraph.s"
 	@echo "... src/GraphBrakeForce.o"
 	@echo "... src/GraphBrakeForce.i"
 	@echo "... src/GraphBrakeForce.s"
