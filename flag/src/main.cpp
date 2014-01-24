@@ -11,6 +11,9 @@
 
 #include "Flag.hpp"
 
+#include "imgui.h"
+#include "imguiRenderGL3.h"
+
 #include <vector>
 #include <ostream>
 
@@ -37,6 +40,7 @@ int main()
 
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
+
 	bool done = false;
     bool wireframe = true;
 
@@ -123,6 +127,8 @@ int main()
         // Mise à jour de la fenêtre
         dt = wm.update();
 	}
+
+    imguiRenderGLDestroy();
 
 	return EXIT_SUCCESS;
 }
