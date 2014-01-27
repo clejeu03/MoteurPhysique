@@ -76,11 +76,14 @@ void ParticleManager::addRandomParticles(unsigned int count)
 
 void ParticleManager::createWaterfallParticles(unsigned int count)
 {
-  for(size_t i = 0; i < count; i++)
+  if(m_PositionArray.size() + count < m_PositionArray.max_size())
   {
-    glm::vec2 randomPos = glm::vec2(glm::linearRand(-0.8f, 0.8f), 0.8f);
-    glm::vec3 randomColor = glm::vec3(0, glm::linearRand(0.2f, 0.5f), 1);
-    addParticle(randomPos, glm::linearRand(0.1f, 0.2f), glm::vec2(0, 0), randomColor);
+    for(size_t i = 0; i < count; i++)
+    {
+      glm::vec2 randomPos = glm::vec2(glm::linearRand(-0.8f, 0.8f), 0.8f);
+      glm::vec3 randomColor = glm::vec3(0, glm::linearRand(0.2f, 0.5f), 1);
+      addParticle(randomPos, glm::linearRand(0.1f, 0.2f), glm::vec2(0, 0), randomColor);
+    }
   }
 }
 

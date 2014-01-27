@@ -55,7 +55,7 @@ int main() {
     while(!done) {
         wm.startMainLoop();
 
-        pm.createWaterfallParticles(100);
+        pm.createWaterfallParticles(500);
 
         // Rendu
         renderer.clear();
