@@ -13,13 +13,14 @@ class PolygonForce : public Force
 {
 private :
 	const Polygon* m_Polygon;
-	float m_fElasticity;
+	//float m_fElasticity;
+	float m_fDebit;
 	const LeapFrogSolver* m_Solver;
 	float m_fDt;
 public:
-	PolygonForce(const Polygon& polygon, float elasticity, const LeapFrogSolver& solver) :
+	PolygonForce(const Polygon& polygon, float debit, const LeapFrogSolver& solver) :
 		m_Polygon(&polygon),
-		m_fElasticity(elasticity),
+		m_fDebit(debit),
 		m_Solver(&solver),
 		m_fDt(0){};
 		
