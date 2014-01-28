@@ -49,6 +49,11 @@ int main() {
     imac3::PolygonForce boxForce(box, 1, debit, widthWaterfall, heightWater, solver);
     boxForce.setDt(0.01f);
 
+    // Création d'un polygon
+    imac3::Polygon circle = imac3::Polygon::buildCircle(glm::vec3(1, 0, 0), glm::vec2(0, 0), 0.5, 6);
+    imac3::PolygonForce circleForce(circle, 1, debit, widthWaterfall, heightWater, solver);
+    boxForce.setDt(0.01f);
+
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
 	bool done = false;
@@ -61,12 +66,15 @@ int main() {
         // Rendu
         renderer.clear();
         pm.drawParticles(renderer);
-        box.draw(renderer);
+        //box.draw(renderer);
+        circle.draw(renderer);
 
         // Application des forces
         gravity.apply(pm);
         //boxForce.apply(pm);
-        boxForce.applyRealPhysicFormula(pm);
+        //boxForce.applyRealPhysicFormula(pm);
+        circleForce.apply(pm);
+        //circleForce.applyRealPhysicFormula(pm);
 
         // Solve
 		solver.solve(pm, dt);
@@ -97,7 +105,8 @@ int main() {
         dt = wm.update();
 
         // Mise à jour des forces
-        boxForce.setDt(dt);
+        //boxForce.setDt(dt);
+        circleForce.setDt(dt);
 	}
 
 	return EXIT_SUCCESS;
