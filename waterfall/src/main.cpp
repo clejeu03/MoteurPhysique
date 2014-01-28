@@ -41,10 +41,12 @@ int main() {
 
     // Attributs de la chute
     float debit = 1000;
+    float widthWaterfall = 1.6;
+    float heightWater = 0.2; // Hauteur d'eau en amont de la chute
 
     // Création d'une box
     imac3::Polygon box = imac3::Polygon::buildBox(glm::vec3(1, 0, 0), glm::vec2(0, 0), 0.5, 0.2);
-    imac3::PolygonForce boxForce(box, debit, solver);
+    imac3::PolygonForce boxForce(box, 1, debit, widthWaterfall, heightWater, solver);
     boxForce.setDt(0.01f);
 
     // Temps s'écoulant entre chaque frame
@@ -54,7 +56,7 @@ int main() {
     while(!done) {
         wm.startMainLoop();
 
-        pm.createWaterfallParticles(100);
+        pm.createWaterfallParticles(100, widthWaterfall, heightWater);
 
         // Rendu
         renderer.clear();
@@ -63,7 +65,8 @@ int main() {
 
         // Application des forces
         gravity.apply(pm);
-        boxForce.apply(pm);
+        //boxForce.apply(pm);
+        boxForce.applyRealPhysicFormula(pm);
 
         // Solve
 		solver.solve(pm, dt);
