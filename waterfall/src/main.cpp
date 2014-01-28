@@ -31,7 +31,7 @@ int main() {
     imac3::ParticleRenderer2D renderer;
 
     // Création des particules
-    imac3::ParticleManager pm;
+    imac3::ParticleManager pm(32);
     
 	// Création des forces
 	imac3::ConstantForce gravity(glm::vec2(0, -0.01f));

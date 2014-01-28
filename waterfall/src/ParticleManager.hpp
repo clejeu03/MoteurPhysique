@@ -22,11 +22,14 @@ private:
     std::vector<glm::vec2> m_ForceBuffer;
     std::vector<bool> m_ForceImmune;
     std::vector<int> m_NonMovableDuration;
+    int m_GridDiscretisation;
 public:
+    ParticleManager(gridDiscretisation);
     size_t addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color, bool isImmune = false);
     void addRandomParticles(unsigned int count);
     void createWaterfallParticles(unsigned int count, float width, float height);
-    void drawParticles(ParticleRenderer2D& renderer); 
+    void drawParticles(ParticleRenderer2D& renderer);
+    void drawGrid(ParticleRenderer2D& renderer);
     void applyTo(size_t index, glm::vec2 force);
     inline size_t getNumberParticles() const { return m_PositionArray.size(); }
     void drawParticleGraph(const ParticleGraph& graph, ParticleRenderer2D& renderer);

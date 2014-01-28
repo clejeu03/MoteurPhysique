@@ -96,6 +96,11 @@ void ParticleManager::drawParticles(ParticleRenderer2D& renderer)
    &m_ColorArray[0]);
 }
 
+void ParticleManager::drawGrid(ParticleRenderer2D& renderer)
+{
+    
+}
+
 void ParticleManager::applyTo(size_t index, glm::vec2 force) 
 {
   if(!m_ForceImmune[index])
