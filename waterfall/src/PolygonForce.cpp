@@ -43,6 +43,7 @@ namespace imac3
 						glm::vec2 F = m_fElasticity * glm::dot(nextvel, -normal) * m/m_fDt * normal;
 						//std::cout << "force to apply : " << F.x << ", " << F.y << std::endl;
 						pm.applyTo(p, F);
+						pm.setColor(p, m_Polygon->getColor());
 					}
 				}
 			}
@@ -85,6 +86,7 @@ namespace imac3
 						glm::vec2 F = m_fElasticity * glm::dot(nextvel, -normal) * m/m_fDt * normal;
 						//std::cout << "force to apply : " << F.x << ", " << F.y << std::endl;
 						pm.applyTo(p, F);
+						pm.setColor(p, m_Polygon->getColor());
 					}
 				}
 			}

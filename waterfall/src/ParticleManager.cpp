@@ -61,6 +61,7 @@ namespace imac3
     m_ColorArray.push_back(color);
     m_ForceBuffer.push_back(glm::vec2(0, 0));
     m_ForceImmune.push_back(isImmune);
+    m_NonMovableDuration.push_back(0);
     return m_PositionArray.size()-1;
   }
 
@@ -82,7 +83,7 @@ void ParticleManager::createWaterfallParticles(unsigned int count, float width, 
     {
       glm::vec2 randomPos = glm::vec2(glm::linearRand(-width/2, width/2), glm::linearRand(0.8-(height/2), 0.8+(height/2) ));
       glm::vec3 randomColor = glm::vec3(0, glm::linearRand(0.2f, 0.5f), 1);
-      addParticle(randomPos, glm::linearRand(0.1f, 0.2f), glm::vec2(0, 0), randomColor);
+      addParticle(randomPos, glm::linearRand(0.1f, 0.2f), glm::vec2(0.1, 0), randomColor);
     }
   }
 }
@@ -120,6 +121,7 @@ void ParticleManager::deleteParticle(size_t index)
   m_ColorArray.erase(m_ColorArray.begin() + index);
   m_ForceBuffer.erase(m_ForceBuffer.begin() + index);
   m_ForceImmune.erase(m_ForceImmune.begin() + index);
+  m_NonMovableDuration.erase(m_NonMovableDuration.begin() + index);
 }
 
 }

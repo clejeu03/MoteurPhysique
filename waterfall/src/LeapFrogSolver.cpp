@@ -23,6 +23,18 @@ const float MAX_SPEED = -0.3f;
 			{
 				pm.deleteParticle(i);
 			}
+			if(newSpeed.y == 0)
+			{
+				pm.incrementNonMovableDuration(i, 1);
+				if(pm.getNonMovableDuration(i) > 1)
+				{
+					pm.deleteParticle(i);
+				}
+			}
+			else
+			{
+				pm.resetNonMovableDuration(i);
+			}
 		}
 	}
 	

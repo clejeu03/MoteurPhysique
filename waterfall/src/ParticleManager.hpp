@@ -21,6 +21,7 @@ private:
     std::vector<glm::vec3> m_ColorArray;
     std::vector<glm::vec2> m_ForceBuffer;
     std::vector<bool> m_ForceImmune;
+    std::vector<int> m_NonMovableDuration;
 public:
     size_t addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color, bool isImmune = false);
     void addRandomParticles(unsigned int count);
@@ -34,10 +35,14 @@ public:
     inline glm::vec2 getPosition(size_t index) const { return m_PositionArray[index]; }
     inline glm::vec2 getForceBuffer(size_t index) const { return m_ForceBuffer[index]; }
     inline float getMass(size_t index) const { return m_MassArray[index]; }
-    
+    inline int getNonMovableDuration(size_t index) const { return m_NonMovableDuration[index]; }
+
     inline void setSpeed(size_t index, glm::vec2 speed) { m_SpeedArray[index] = speed; }
     inline void setPosition(size_t index, glm::vec2 pos) { m_PositionArray[index] = pos; }
+    inline void setColor(size_t index, glm::vec3 color) { m_ColorArray[index] = color; }
     inline void setForceBuffer(size_t index, glm::vec2 force) { m_ForceBuffer[index] = force; }
+    inline void incrementNonMovableDuration(size_t index, int increment) { m_NonMovableDuration[index] += increment; }
+    inline void resetNonMovableDuration(size_t index) { m_NonMovableDuration[index] = 0; }
 
     void deleteParticle(size_t index);
 };

@@ -38,6 +38,7 @@ public:
 	size_t getNumberVertices() const;
 	glm::vec2 getVertex(size_t index) const;
 	bool isInner() const;
+	glm::vec3 getColor() const { return m_color; }
 };
 
 }
