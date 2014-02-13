@@ -7,6 +7,7 @@
 namespace imac3 {
 
 WindowManager::WindowManager(uint32_t w, uint32_t h, const char *title) {
+    
     setFramerate(30);
 
     if(-1 == SDL_Init(SDL_INIT_VIDEO)) {

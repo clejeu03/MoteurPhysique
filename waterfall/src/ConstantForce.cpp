@@ -9,7 +9,8 @@ namespace imac3
 	{
 		size_t count = pm.getNumberParticles();
 		
-		for (size_t i = 0; i < count; ++i){
+		for (size_t i = 0; i < count; ++i)
+		{
 			pm.applyTo(i, m_force);
 		}
 	

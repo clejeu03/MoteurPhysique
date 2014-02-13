@@ -11,43 +11,143 @@ namespace imac3
 
 typedef std::vector<std::pair<unsigned int, unsigned int>> ParticleGraph;
 
+struct Particle
+{
+    glm::vec2 pos;
+    glm::vec2 speed;
+    glm::vec3 color;
+    glm::vec2 fbuffer;
+    float mass;
+    bool forceimmune;
+    int nonmovableduration;
+    glm::vec2 gridIndexes;
+
+    Particle(glm::vec2 ipos, glm::vec2 ispeed, glm::vec3 icolor, glm::vec2 buffer, float imass, bool immune) :
+        pos(ipos), speed(ispeed), color(icolor), fbuffer(buffer), mass(imass), forceimmune(immune), nonmovableduration(0)
+        {
+        }
+
+    glm::vec2 updateGridIndexes(int numGridLines, int numGridColumns)
+    {
+        gridIndexes.x = floor((pos.x + 1.) / (2./(float)numGridColumns));
+        gridIndexes.y = floor((pos.y + 1.) / (2./(float)numGridLines));
+        color = glm::vec3(gridIndexes.x/numGridColumns, gridIndexes.y/numGridLines, 1);
+        return gridIndexes;
+    }
+};
+
 class ParticleManager
 {
-    
+  
 private:
-	std::vector<glm::vec2> m_PositionArray;
-    std::vector<float> m_MassArray;
-    std::vector<glm::vec2> m_SpeedArray;
-    std::vector<glm::vec3> m_ColorArray;
-    std::vector<glm::vec2> m_ForceBuffer;
-    std::vector<bool> m_ForceImmune;
-    std::vector<int> m_NonMovableDuration;
-    int m_GridDiscretisation;
+
+    std::vector<std::vector<Particle*>> m_particles;
+    int m_numGridLines; // The number of column in the grid
+    int m_numGridColumns; // The number of line in the grid
+
 public:
-    ParticleManager(gridDiscretisation);
+
+    //
+    // Contructor & Destructor
+    //
+
+    ParticleManager(int numGridLines, int numGridColumns);
+    ~ParticleManager();
+
+    //
+    // Addind Particles
+    //
+
     size_t addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color, bool isImmune = false);
     void addRandomParticles(unsigned int count);
     void createWaterfallParticles(unsigned int count, float width, float height);
+    
+    //
+    // Render particles
+    //
+
     void drawParticles(ParticleRenderer2D& renderer);
     void drawGrid(ParticleRenderer2D& renderer);
-    void applyTo(size_t index, glm::vec2 force);
-    inline size_t getNumberParticles() const { return m_PositionArray.size(); }
     void drawParticleGraph(const ParticleGraph& graph, ParticleRenderer2D& renderer);
 
-    inline glm::vec2 getSpeed(size_t index) const { return m_SpeedArray[index]; }
-    inline glm::vec2 getPosition(size_t index) const { return m_PositionArray[index]; }
-    inline glm::vec2 getForceBuffer(size_t index) const { return m_ForceBuffer[index]; }
-    inline float getMass(size_t index) const { return m_MassArray[index]; }
-    inline int getNonMovableDuration(size_t index) const { return m_NonMovableDuration[index]; }
+    //
+    // Physics Management
+    //
 
-    inline void setSpeed(size_t index, glm::vec2 speed) { m_SpeedArray[index] = speed; }
-    inline void setPosition(size_t index, glm::vec2 pos) { m_PositionArray[index] = pos; }
-    inline void setColor(size_t index, glm::vec3 color) { m_ColorArray[index] = color; }
-    inline void setForceBuffer(size_t index, glm::vec2 force) { m_ForceBuffer[index] = force; }
-    inline void incrementNonMovableDuration(size_t index, int increment) { m_NonMovableDuration[index] += increment; }
-    inline void resetNonMovableDuration(size_t index) { m_NonMovableDuration[index] = 0; }
+    void applyTo(int cell_id, size_t index, glm::vec2 force);
+    void applyToAll(glm::vec2 force);
 
-    void deleteParticle(size_t index);
+    //
+    // Getters
+    //
+
+    inline getNumGridCell() const
+    {
+        return m_numGridHorizontalCells * m_numGridVerticalCells;
+    }
+
+    inline int getNumberParticles() const;
+
+    inline glm::vec2 getSpeed(int cell_id, size_t index) const
+    {
+        return m_particles[cell_id].at(index)->speed;
+    }
+
+    inline glm::vec2 getPosition(int cell_id, size_t index) const
+    {
+        return m_particles[cell_id].at(index)->pos;
+    }
+
+    inline glm::vec2 getForceBuffer(int cell_id, size_t index) const
+    {
+        return m_particles[cell_id].at(index)->fbuffer;
+    }
+
+    inline float getMass(int cell_id, size_t index) const
+    {
+        return m_particles[cell_id].at(index)->mass;
+    }
+
+    inline int getNonMovableDuration(int cell_id, size_t index) const
+    {
+        return m_particles[cell_id].at(index)->nonmovableduration;
+    }
+
+    //
+    // Setters
+    //
+
+    inline void setSpeed(int cell_id, size_t index, glm::vec2 speed)
+    {
+        m_particles[cell_id].at(index)->speed = speed;
+    }
+
+    inline void setPosition(int cell_id, size_t index, glm::vec2 pos)
+    {
+        m_particles[cell_id].at(index)->pos = pos;
+    }
+
+    inline void setColor(int cell_id, size_t index, glm::vec3 color)
+    {
+        m_particles[cell_id].at(index)->color = color;
+    }
+
+    inline void setForceBuffer(int cell_id, size_t index, glm::vec2 force)
+    {
+        m_particles[cell_id].at(index)->fbuffer = force;
+    }
+
+    inline void incrementNonMovableDuration(int cell_id, size_t index, int increment)
+    {
+        m_particles[cell_id].at(index)->nonmovableduration += increment;
+    }
+
+    inline void resetNonMovableDuration(int cell_id, size_t index)
+    {
+        m_particles[cell_id].at(index)->nonmovableduration = 0;
+    }
+
+    void deleteParticle(size_t id);
 };
 
 ParticleGraph createStringGraph(glm::vec2 A, size_t stringIndex, glm::vec3 color, ParticleManager& particleManager);
@@ -56,4 +156,4 @@ ParticleGraph createCircleGraph(glm::vec2 C, float radius, glm::vec3 color, uint
 
 }
 
-#endif // _H_IMAC3_PARTICLEMANAGER_H_ 
+#endif // _H_IMAC3_PARTICLEMANAGER_H_

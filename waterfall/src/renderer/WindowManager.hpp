@@ -38,7 +38,6 @@ public:
 private:
     uint32_t m_nFPS;
     uint32_t m_nFrameDuration;
-
     uint32_t m_nStartTime;
 };
 

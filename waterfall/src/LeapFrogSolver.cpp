@@ -9,7 +9,9 @@ const float MAX_SPEED = -0.3f;
 	void LeapFrogSolver::solve(ParticleManager& pm, float dt)
 	{
 		size_t count = pm.getNumberParticles();
-		for (size_t i = 0; i < count; ++i){
+		for (size_t i = 0; i < count; ++i)
+		{
+			
 			glm::vec2 newSpeed = pm.getSpeed(i) + dt * pm.getForceBuffer(i)/pm.getMass(i);
 			if(newSpeed.y < MAX_SPEED)
 			{
@@ -21,7 +23,7 @@ const float MAX_SPEED = -0.3f;
 			pm.setForceBuffer(i, glm::vec2(0, 0));
 			if(newPos.y < -1)
 			{
-				pm.deleteParticle(i);
+				pm.deleteParticle(pm.getParticle(i);
 			}
 			if(newSpeed.y == 0)
 			{
