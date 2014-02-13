@@ -45,17 +45,26 @@ int main() {
     float heightWater = 0.2; // Hauteur d'eau en amont de la chute
 
     // Création des obstacles
-    imac3::Polygon circle = imac3::Polygon::buildCircle(glm::vec3(1, 0, 0), glm::vec2(-0.3, 0.3), 0.3, 6);
-    imac3::PolygonForce circleForce(circle, 1, debit, widthWaterfall, heightWater, solver);
-    circleForce.setDt(0.01f);
+    std::vector<imac3::Polygon> polygons;
+    std::vector<imac3::PolygonForce> polygonForces;
 
-    imac3::Polygon circle2 = imac3::Polygon::buildCircle(glm::vec3(1, 1, 0), glm::vec2(0.5, -0.5), 0.4, 6);
-    imac3::PolygonForce circleForce2(circle2, 1, debit, widthWaterfall, heightWater, solver);
-    circleForce2.setDt(0.01f);
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 1, 0), glm::vec2(-0.3, 0.4), 0.2, 6));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 1, 1), glm::vec2(0.4, 0.4), 0.2, 6));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 1), glm::vec2(-0.1, -0.3), 0.2, 6));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0.5, 0.8), glm::vec2(0.3, -0.7), 0.2, 6));
+
+    for(size_t i = 0; i < polygons.size(); i++)
+    {
+        polygonForces.push_back(imac3::PolygonForce(polygons.at(i), 1, debit, widthWaterfall, heightWater, solver));
+        polygonForces.at(i).setDt(0.01f);
+    }
 
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
 	bool done = false;
+
+    
+    
 
     fprintf(stderr, "go\n");
     while(!done)
@@ -67,13 +76,18 @@ int main() {
         // Rendu
         renderer.clear();
         pm.drawParticles(renderer);
-        circle.draw(renderer);
-        circle2.draw(renderer);
+        
+        for(size_t i = 0; i < polygons.size(); i++)
+        {
+            polygons.at(i).draw(renderer);
+        }
 
         // Application des forces
         gravity.apply(pm);
-        circleForce.apply(pm);
-        circleForce2.apply(pm);
+        for(size_t i = 0; i < polygonForces.size(); i++)
+        {
+            polygonForces.at(i).apply(pm);
+        }
 
         // Solve
 		solver.solve(pm, dt);
@@ -94,8 +108,10 @@ int main() {
         dt = wm.update();
 
         // Mise à jour des forces
-        circleForce.setDt(dt);
-        circleForce2.setDt(dt);
+        for(size_t i = 0; i < polygonForces.size(); i++)
+        {
+            polygonForces.at(i).setDt(dt);
+        }
 
 	}
 
