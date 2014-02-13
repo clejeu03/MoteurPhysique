@@ -8,12 +8,7 @@ namespace imac3
 	void ConstantForce::apply(ParticleManager & pm)
 	{
 		size_t count = pm.getNumberParticles();
-		
-		for (size_t i = 0; i < count; ++i)
-		{
-			pm.applyTo(i, m_force);
-		}
-	
+		pm.applyToAll(m_force);	
 	}
 
 }

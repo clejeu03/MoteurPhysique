@@ -8,47 +8,59 @@ const float MAX_SPEED = -0.3f;
 
 	void LeapFrogSolver::solve(ParticleManager& pm, float dt)
 	{
-		size_t count = pm.getNumberParticles();
-		for (size_t i = 0; i < count; ++i)
+		int nb_cells = pm.getNumGridCell();
+		
+		// For each cell
+		for (size_t c = 0; c < nb_cells; ++c)
 		{
-			
-			glm::vec2 newSpeed = pm.getSpeed(i) + dt * pm.getForceBuffer(i)/pm.getMass(i);
-			if(newSpeed.y < MAX_SPEED)
+
+			// For each particle in this cell
+			for(int p = 0; p < pm.getNumberParticles(c); ++p)
 			{
-				newSpeed.y = MAX_SPEED;
-			}
-			glm::vec2 newPos = pm.getPosition(i) + dt * newSpeed;
-			pm.setSpeed(i, newSpeed);
-			pm.setPosition(i, newPos);
-			pm.setForceBuffer(i, glm::vec2(0, 0));
-			if(newPos.y < -1)
-			{
-				pm.deleteParticle(pm.getParticle(i);
-			}
-			if(newSpeed.y == 0)
-			{
-				pm.incrementNonMovableDuration(i, 1);
-				if(pm.getNonMovableDuration(i) > 1)
+				//fprintf(stderr, "solve particle %d of cell %lu (size = %d)\n", p, c, pm.getNumberParticles(c));
+				glm::vec2 newSpeed = pm.getSpeed(c, p) + dt * pm.getForceBuffer(c, p)/pm.getMass(c, p);
+				if(newSpeed.y < MAX_SPEED)
 				{
-					pm.deleteParticle(i);
+					newSpeed.y = MAX_SPEED;
 				}
-			}
-			else
+				glm::vec2 newPos = pm.getPosition(c, p) + dt * newSpeed;
+				pm.setSpeed(c, p, newSpeed);
+				pm.setPosition(c, p, newPos);
+				pm.setForceBuffer(c, p, glm::vec2(0, 0));
+				if(newSpeed.y == 0)
+				{
+					pm.incrementNonMovableDuration(c, p, 1);
+					if(pm.getNonMovableDuration(c, p) > 1)
+					{
+						pm.deleteParticle(c, p);
+					}
+				}
+				if(newPos.y < -1)
+				{
+					pm.deleteParticle(c, p);
+				}
+				else
+				{
+					pm.resetNonMovableDuration(c, p);
+				}			
+			}			
+		}
+
+		for (size_t c = 0; c < nb_cells; ++c)
+		{
+			// For each particle in this cell
+			for(int p = 0; p < pm.getNumberParticles(c); ++p)
 			{
-				pm.resetNonMovableDuration(i);
-			}
+				//fprintf(stderr, "update particle %d of cell %lu (size = %d)\n", p, c, pm.getNumberParticles(c));
+				pm.updateGridIndexes(c, p);
+			}			
 		}
 	}
 	
-	ParticleState LeapFrogSolver::getNextState(uint32_t id, ParticleManager& pm, float dt) const
+	ParticleState LeapFrogSolver::getNextState(int cell_id, uint32_t index, ParticleManager& pm, float dt) const
 	{
-		//std::cout << "calculate next state of particle" << pm.getPosition(id).x << ", " << pm.getPosition(id).y << std::endl;
-		glm::vec2 newSpeed = pm.getSpeed(id) + dt * pm.getForceBuffer(id)/pm.getMass(id);
-		//std::cout << "new speed is " << newSpeed.x << ", " << newSpeed.y << std::endl;
-		//std::cout << "force bufer is " << pm.getForceBuffer(id).x << ", " << pm.getForceBuffer(id).y << std::endl;
-		//std::cout << "dt " << dt << std::endl;
-		glm::vec2 newPos = pm.getPosition(id) + dt * newSpeed;
-		//std::cout << "new pos is " << newPos.x << ", " << newPos.y << std::endl;
+		glm::vec2 newSpeed = pm.getSpeed(cell_id, index) + dt * pm.getForceBuffer(cell_id, index)/pm.getMass(cell_id, index);
+		glm::vec2 newPos = pm.getPosition(cell_id, index) + dt * newSpeed;
 		return ParticleState(newPos, newSpeed);
 	}
 

@@ -17,7 +17,7 @@ private:
 
 	std::vector<glm::vec2> m_vertices;
 	glm::vec3 m_color;
-	bool m_bisinner;	
+	bool m_bisinner;
 	
 	Polygon(glm::vec3 color, bool isInner = false);
 	void addVertex(glm::vec2 position);

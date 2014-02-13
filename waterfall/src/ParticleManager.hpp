@@ -9,7 +9,7 @@
 namespace imac3
 {
 
-typedef std::vector<std::pair<unsigned int, unsigned int>> ParticleGraph;
+typedef std::vector<std::pair<std::pair<int, unsigned int>, std::pair<int, unsigned int>>> ParticleGraph;
 
 struct Particle
 {
@@ -24,14 +24,17 @@ struct Particle
 
     Particle(glm::vec2 ipos, glm::vec2 ispeed, glm::vec3 icolor, glm::vec2 buffer, float imass, bool immune) :
         pos(ipos), speed(ispeed), color(icolor), fbuffer(buffer), mass(imass), forceimmune(immune), nonmovableduration(0)
-        {
-        }
+    {
+    }
 
     glm::vec2 updateGridIndexes(int numGridLines, int numGridColumns)
     {
         gridIndexes.x = floor((pos.x + 1.) / (2./(float)numGridColumns));
         gridIndexes.y = floor((pos.y + 1.) / (2./(float)numGridLines));
-        color = glm::vec3(gridIndexes.x/numGridColumns, gridIndexes.y/numGridLines, 1);
+        if(gridIndexes.x < 0) gridIndexes.x = 0;
+        if(gridIndexes.y < 0) gridIndexes.y = 0;
+        // Debug
+        // color = glm::vec3(((int)gridIndexes.x)%2, ((int)gridIndexes.y)%2, 0);
         return gridIndexes;
     }
 };
@@ -58,7 +61,7 @@ public:
     // Addind Particles
     //
 
-    size_t addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color, bool isImmune = false);
+    std::pair<int, unsigned int> addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color, bool isImmune = false);
     void addRandomParticles(unsigned int count);
     void createWaterfallParticles(unsigned int count, float width, float height);
     
@@ -81,12 +84,25 @@ public:
     // Getters
     //
 
-    inline getNumGridCell() const
+    inline int getNumGridCell() const
     {
-        return m_numGridHorizontalCells * m_numGridVerticalCells;
+        return m_numGridLines * m_numGridColumns;
     }
 
-    inline int getNumberParticles() const;
+    inline int getNumberParticles() const
+    {
+        int nb = 0;
+        for(size_t i = 0; i < m_particles.size(); i++)
+        {
+            nb += m_particles[i].size();
+        }
+        return nb;
+    }
+
+    inline int getNumberParticles(int cell_id) const
+    {
+        return m_particles[cell_id].size();
+    }
 
     inline glm::vec2 getSpeed(int cell_id, size_t index) const
     {
@@ -147,10 +163,11 @@ public:
         m_particles[cell_id].at(index)->nonmovableduration = 0;
     }
 
-    void deleteParticle(size_t id);
+    void updateGridIndexes(int cell_id, size_t index);
+
+    void deleteParticle(int cell_id, size_t index);
 };
 
-ParticleGraph createStringGraph(glm::vec2 A, size_t stringIndex, glm::vec3 color, ParticleManager& particleManager);
 ParticleGraph createCircleGraph(glm::vec2 C, float radius, glm::vec3 color, uint32_t nbSeg, ParticleManager& particleManager);
 
 

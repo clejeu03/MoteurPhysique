@@ -36,18 +36,17 @@ namespace imac3
     }
 
 
-    size_t ParticleManager::addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color, bool isImmune)
+    std::pair<int, unsigned int> ParticleManager::addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color, bool isImmune)
     {
         Particle* p = new Particle(pos, speed, color, glm::vec2(), mass, isImmune);
         glm::vec2 indexes = p->updateGridIndexes(m_numGridLines, m_numGridColumns);
         // Add particle in the good vector.
-        //fprintf(stderr, "(%f, %f)\n", indexes.x, indexes.y);
         int t = static_cast<int>(indexes.y) * m_numGridColumns + static_cast<int>(indexes.x);
         if(m_particles[t].size() + 1 < m_particles[t].max_size())
         {
             m_particles[t].push_back(p);
         }
-        return id;
+        return std::make_pair(t, m_particles[t].size()-1);
     }
 
     void ParticleManager::addRandomParticles(unsigned int count)
@@ -109,6 +108,11 @@ namespace imac3
 
     void ParticleManager::applyTo(int cell_id, size_t index, glm::vec2 force) 
     {
+        if(index > m_particles[cell_id].size()-1)
+        {
+            fprintf(stderr, "Error : No particle %lu in the cell %d (max index = %lu). So you can't apply force on it. End of program.\n", index, cell_id, m_particles[cell_id].size());
+            exit(EXIT_FAILURE);
+        }
         m_particles[cell_id].at(index)->fbuffer += force;
     }
 
@@ -124,70 +128,73 @@ namespace imac3
     }
 
 
-    inline int ParticleManager::getNumberParticles() const
+    void ParticleManager::deleteParticle(int cell_id, size_t index)
     {
-        int nb = 0;
-        for(size_t i = 0; i < m_particles.size(); i++)
+        if(index > m_particles[cell_id].size()-1)
         {
-            nb += m_particles[i].size();
-        }
-        return nb;
-    }
-
-    void ParticleManager::deleteParticle(size_t id)
-    {
-        for(size_t i = 0; i < m_particles.size(); i++)
-        {
-            for(size_t j = 0; j < m_particles[i].size(); j++)
-            {
-                if(m_particles[i][j]->id == id)
-                {
-                    Particle* p = m_particles[i][j];
-                    m_particles[i].erase(m_particles[i].begin() + j);
-                    delete p;
-                    return;
-                }
-            }
-        }
-        fprintf(stderr, "Error : You are trying to delete article with id %lu which does not exist. End of program.\n", id);
-        exit(EXIT_FAILURE);
-    }
-
-    ParticleGraph createStringGraph(glm::vec2 A, size_t stringIndex, glm::vec3 color, ParticleManager& particleManager)
-    {
-
-        ParticleGraph graph;
-
-        size_t indexA = particleManager.addParticle(A, 1.f, glm::vec2(0.0, 0.0), color, true);
-        //Link the particules into a graph
-        graph.push_back(std::make_pair(indexA, stringIndex));
-
-        return graph;
-    }
-
-    ParticleGraph createCircleGraph(glm::vec2 C, float radius, glm::vec3 color, uint32_t nbSeg, ParticleManager& particleManager)
-    {
-        ParticleGraph graph;
-        const size_t circleInitialIndex = particleManager.getNumberParticles();
-        if(nbSeg < 3)
-        {
-            std::cerr << "createCircleGraph : Not enough segments (must be > 3). End of program." << std::cerr;
+            fprintf(stderr, "Error : No particle %lu in the cell %d (max index = %lu). So you can't delete it. End of program.\n", index, cell_id, m_particles[cell_id].size());
             exit(EXIT_FAILURE);
         }
-        size_t addedParticule;
-        float angularStep = 2*PI/nbSeg;
-        for (int i = 0; i < nbSeg; ++i)
+        Particle* p = m_particles[cell_id].at(index);
+        m_particles[cell_id].erase(m_particles[cell_id].begin() + index);
+        delete p;
+    }
+
+    void ParticleManager::updateGridIndexes(int cell_id, size_t index)
+    {
+        if(index > m_particles[cell_id].size()-1)
         {
-            glm::vec2 P(C.x + radius * cos(PI/2.f + i*angularStep), C.y + radius * sin(PI/2.f + i*angularStep));
-            addedParticule = particleManager.addParticle(P, 1.f, glm::vec2(0.0, 0.0), color);
-            //Link the particules into a graph
-            if (addedParticule != circleInitialIndex)
+            fprintf(stderr, "Error : No particle %lu in the cell %d (max index = %lu). So you can't delete it. End of program.\n", index, cell_id, m_particles[cell_id].size());
+            exit(EXIT_FAILURE);
+        }
+
+        glm::vec2 indexes = m_particles[cell_id].at(index)->updateGridIndexes(m_numGridLines, m_numGridColumns);
+        int new_cell_id = static_cast<int>(indexes.y) * m_numGridColumns + static_cast<int>(indexes.x);
+        if(new_cell_id > m_numGridColumns * m_numGridLines - 1)
+        {
+            deleteParticle(cell_id, index);
+            return;
+        }
+        if(new_cell_id != cell_id)
+        {
+            Particle* p = m_particles[cell_id].at(index);
+            m_particles[cell_id].erase(m_particles[cell_id].begin() + index);
+            m_particles[new_cell_id].push_back(p);
+        }
+    }
+
+    ParticleGraph createCircleGraph(glm::vec2 C, float radius, glm::vec3 color, uint32_t nbSeg, ParticleManager& pm)
+    {
+        if(nbSeg < 3)
+        {
+            fprintf(stderr, "createCircleGraph : Not enough segments (must be > 3). End of program.\n");
+            exit(EXIT_FAILURE);
+        }
+
+        ParticleGraph graph;
+        float angularStep = 2*PI/nbSeg;
+
+        // Add the first particle
+        glm::vec2 pos(C.x + radius * cos(PI/2.f), C.y + radius * sin(PI/2.f));
+        const std::pair<int, unsigned int> startingParticle = pm.addParticle(pos, 1.f, glm::vec2(0.0, 0.0), color);
+
+        // Add the others
+        std::pair<int, unsigned int> currentParticle;
+        std::pair<int, unsigned int> lastParticle = startingParticle;
+        
+        for (int i = 1; i < nbSeg; ++i)
+        {
+            pos.x = C.x + radius * cos(PI/2.f + i*angularStep);
+            pos.y = C.y + radius * sin(PI/2.f + i*angularStep);
+            currentParticle = pm.addParticle(pos, 1.f, glm::vec2(0.0, 0.0), color);
+            
+            // Link the current particle with the previous
+            graph.push_back(std::make_pair(currentParticle, lastParticle));
+            
+            // Link the current particle with the starting particle if we reach the end of the graph
+            if (i == nbSeg-1)
             {
-                graph.push_back(std::make_pair(addedParticule-1, addedParticule));
-            }
-            if (addedParticule == circleInitialIndex + nbSeg-1)
-            {
-                graph.push_back(std::make_pair(addedParticule, addedParticule-nbSeg+1));
+                graph.push_back(std::make_pair(currentParticle, startingParticle));
             }
         }
         return graph;
