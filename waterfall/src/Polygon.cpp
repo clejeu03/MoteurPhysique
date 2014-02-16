@@ -16,16 +16,6 @@ namespace imac3
 	{
 		m_vertices.push_back(position);
 	}
-
-	Polygon Polygon::buildBox(glm::vec3 color, glm::vec2 position, float width, float height, bool isInner)
-	{
-		Polygon poly(color, isInner);
-		poly.addVertex(position);
-		poly.addVertex(glm::vec2(position.x, position.y + height));
-		poly.addVertex(glm::vec2(position.x + width, position.y + height));
-		poly.addVertex(glm::vec2(position.x + width, position.y));
-		return poly;
-	}
 	
 	Polygon Polygon::buildCircle(glm::vec3 color, glm::vec2 center, float radius, size_t discFactor, bool isInner)
 	{
@@ -42,6 +32,15 @@ namespace imac3
 		renderer.drawPolygon(m_vertices.size(), &m_vertices[0], m_color, lineWidth);
 	}
 	
+	void Polygon::translate(glm::vec2 trans)
+	{
+		for(size_t i = 0; i < m_vertices.size(); ++i)
+		{
+			m_vertices.at(i) += trans;
+		}
+
+	}
+
 	bool Polygon::intersect(const glm::vec2& P1,
 						  const glm::vec2& P2,
 						  const glm::vec2& A,
@@ -88,7 +87,7 @@ namespace imac3
 		return m_bisinner;
 	}
 
-	bool Polygon::isMouseOn(float mouseX, float mouseY)
+	bool Polygon::mouseOn(float mouseX, float mouseY)
 	{
 		// Iterate through each edge to detect collision
 		for(size_t i = 1; i < m_vertices.size(); i++)
@@ -104,11 +103,14 @@ namespace imac3
 			float d = sqrt(AC.x*AB.y - AB.x*AC.y * AC.x*AB.y - AB.x*AC.y);
 
 			// Check 1 : C is on the line (P1, P2)
-			if(d <= 0.12)
+			if(d <= 0.2)
 			{
 				// Check 2 : C between A and B
 				if(glm::dot(CA, CB) <= 0)
+				{
 					select();
+					return true;
+				}
 			}
 		}
 		return false;

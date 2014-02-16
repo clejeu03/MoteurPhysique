@@ -48,9 +48,9 @@ int main() {
     std::vector<imac3::Polygon> polygons;
     std::vector<imac3::PolygonForce> polygonForces;
 
-    //polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 1, 0), glm::vec2(-0.3, 0.4), 0.2, 6));
-    //polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 1, 1), glm::vec2(0.4, 0.4), 0.2, 6));
-    //polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 1), glm::vec2(-0.1, -0.3), 0.2, 6));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 1, 0), glm::vec2(-0.3, 0.4), 0.2, 6));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 1, 1), glm::vec2(0.4, 0.4), 0.2, 6));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 1), glm::vec2(-0.1, -0.3), 0.2, 6));
     polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0.5, 0.8), glm::vec2(0, 0), 0.5, 6));
 
     for(size_t i = 0; i < polygons.size(); i++)
@@ -62,6 +62,9 @@ int main() {
     // Temps s'écoulant entre chaque frame
     float dt = 0.f;
 	bool done = false;
+
+    float lastX, lastY;
+    bool leftKeyPressed = false;
 
     while(!done)
     {
@@ -102,11 +105,12 @@ int main() {
                 case SDL_MOUSEBUTTONDOWN:
                     if(e.button.button == SDL_BUTTON_LEFT)
                     {
-                        float x = -1 + 2 * (float)e.button.x / WINDOW_WIDTH;
-                        float y = 1 - 2 * (float)e.button.y / WINDOW_HEIGHT;
+                        leftKeyPressed = true;
+                        lastX = -1 + 2 * (float)e.button.x / WINDOW_WIDTH;
+                        lastY = 1 - 2 * (float)e.button.y / WINDOW_HEIGHT;
                         for(size_t t = 0; t < polygons.size(); t++)
                         {
-                            polygons.at(t).isMouseOn(x, y);
+                            polygons.at(t).mouseOn(lastX, lastY);
                         }
                     }
                     break;
@@ -114,11 +118,31 @@ int main() {
                 case SDL_MOUSEBUTTONUP:
                     if(e.button.button == SDL_BUTTON_LEFT)
                     {
+                        leftKeyPressed = false;
                         for(size_t t = 0; t < polygons.size(); t++)
                         {
                             polygons.at(t).unselect();
                         }
                     }
+                    break;
+
+                case SDL_MOUSEMOTION:
+                    if(leftKeyPressed)
+                    {
+                        for(size_t t = 0; t < polygons.size(); t++)
+                        {
+                            if(polygons.at(t).isSelected())
+                            {
+                                float x = -1 + 2 * (float)e.button.x / WINDOW_WIDTH;
+                                float y = 1 - 2 * (float)e.button.y / WINDOW_HEIGHT;
+                                polygons.at(t).translate(glm::vec2(x - lastX, y - lastY));
+                                lastX = x;
+                                lastY = y;
+                            }
+                            
+                        };
+                    }
+                    
                     break;
 			}
 		}

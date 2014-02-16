@@ -19,6 +19,9 @@ private:
 	glm::vec3 m_color;
 	bool m_bisinner;
 	bool m_isSelected;
+	float m_radius;
+	float m_discFactor;
+	glm::vec2 m_center;
 	
 	Polygon(glm::vec3 color, bool isInner = false);
 	void addVertex(glm::vec2 position);
@@ -26,23 +29,22 @@ private:
 public:
 
 	Polygon(){}
-	static Polygon buildBox(glm::vec3 color, glm::vec2 position, float width, float height, bool isInner = false);
 	static Polygon buildCircle(glm::vec3 color, glm::vec2 center, float radius, size_t discFactor, bool isInner = false);
 	void draw(ParticleRenderer2D& renderer, float lineWidth = 1.f) const;
 	
-	static bool intersect(const glm::vec2& P1,
-						  const glm::vec2& P2,
-						  const glm::vec2& A,
-						  const glm::vec2& B,
-						  glm::vec2* intersection,
-						  glm::vec2* normal);
+	static bool intersect(const glm::vec2& P1, const glm::vec2& P2, const glm::vec2& A, const glm::vec2& B, glm::vec2* intersection, glm::vec2* normal);
 						  
 	size_t getNumberVertices() const;
 	glm::vec2 getVertex(size_t index) const;
-	bool isInner() const;
 	glm::vec3 getColor() const { return m_color; }
+	glm::vec2 getCenter() const { return m_center; }
 
-	bool isMouseOn(float mouseX, float mouseY);
+	void translate(glm::vec2 trans);
+
+	bool isInner() const;
+	bool isSelected() { return m_isSelected; }
+
+	bool mouseOn(float mouseX, float mouseY);
 	void select()
 	{
 		m_isSelected = true;
@@ -53,6 +55,7 @@ public:
 		m_isSelected = false;
 		m_color = glm::vec3(1., 0, 0);
 	}
+	
 };
 
 }
