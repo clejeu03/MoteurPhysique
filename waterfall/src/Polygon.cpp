@@ -87,7 +87,31 @@ namespace imac3
 	{
 		return m_bisinner;
 	}
-	
+
+	bool Polygon::isMouseOn(float mouseX, float mouseY)
+	{
+		// Iterate through each edge to detect collision
+		for(size_t i = 1; i < m_vertices.size(); i++)
+		{
+			glm::vec2 C(mouseX, mouseY);
+			glm::vec2 A = m_vertices.at(i);
+			glm::vec2 B = m_vertices.at(i-1);
+			glm::vec2 AC = C - A;
+			glm::vec2 AB = B - A;
+			glm::vec2 CA = A - C;
+			glm::vec2 CB = B - C;
+
+			float d = sqrt(AC.x*AB.y - AB.x*AC.y * AC.x*AB.y - AB.x*AC.y);
+
+			// Check 1 : C is on the line (P1, P2)
+			if(d <= 0.12)
+			{
+				// Check 2 : C between A and B
+				if(glm::dot(CA, CB) <= 0)
+					select();
+			}
+		}
+		return false;
+	}
 
 }
-

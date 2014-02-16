@@ -18,11 +18,13 @@ private:
 	std::vector<glm::vec2> m_vertices;
 	glm::vec3 m_color;
 	bool m_bisinner;
+	bool m_isSelected;
 	
 	Polygon(glm::vec3 color, bool isInner = false);
 	void addVertex(glm::vec2 position);
 	
 public:
+
 	Polygon(){}
 	static Polygon buildBox(glm::vec3 color, glm::vec2 position, float width, float height, bool isInner = false);
 	static Polygon buildCircle(glm::vec3 color, glm::vec2 center, float radius, size_t discFactor, bool isInner = false);
@@ -39,6 +41,18 @@ public:
 	glm::vec2 getVertex(size_t index) const;
 	bool isInner() const;
 	glm::vec3 getColor() const { return m_color; }
+
+	bool isMouseOn(float mouseX, float mouseY);
+	void select()
+	{
+		m_isSelected = true;
+		m_color = glm::vec3(1., 1., 0);
+	}
+	void unselect()
+	{
+		m_isSelected = false;
+		m_color = glm::vec3(1., 0, 0);
+	}
 };
 
 }

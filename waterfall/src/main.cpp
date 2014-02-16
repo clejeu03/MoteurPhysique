@@ -48,10 +48,10 @@ int main() {
     std::vector<imac3::Polygon> polygons;
     std::vector<imac3::PolygonForce> polygonForces;
 
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 1, 0), glm::vec2(-0.3, 0.4), 0.2, 6));
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 1, 1), glm::vec2(0.4, 0.4), 0.2, 6));
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 1), glm::vec2(-0.1, -0.3), 0.2, 6));
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0.5, 0.8), glm::vec2(0.3, -0.7), 0.2, 6));
+    //polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 1, 0), glm::vec2(-0.3, 0.4), 0.2, 6));
+    //polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 1, 1), glm::vec2(0.4, 0.4), 0.2, 6));
+    //polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 1), glm::vec2(-0.1, -0.3), 0.2, 6));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0.5, 0.8), glm::vec2(0, 0), 0.5, 6));
 
     for(size_t i = 0; i < polygons.size(); i++)
     {
@@ -63,10 +63,6 @@ int main() {
     float dt = 0.f;
 	bool done = false;
 
-    
-    
-
-    fprintf(stderr, "go\n");
     while(!done)
     {
         wm.startMainLoop();
@@ -94,13 +90,36 @@ int main() {
 
         // Gestion des evenements
 		SDL_Event e;
-        while(wm.pollEvent(e)) {
-			switch(e.type) {
+        while(wm.pollEvent(e))
+        {
+			switch(e.type)
+            {
 				default:
 					break;
 				case SDL_QUIT:
 					done = true;
 					break;
+                case SDL_MOUSEBUTTONDOWN:
+                    if(e.button.button == SDL_BUTTON_LEFT)
+                    {
+                        float x = -1 + 2 * (float)e.button.x / WINDOW_WIDTH;
+                        float y = 1 - 2 * (float)e.button.y / WINDOW_HEIGHT;
+                        for(size_t t = 0; t < polygons.size(); t++)
+                        {
+                            polygons.at(t).isMouseOn(x, y);
+                        }
+                    }
+                    break;
+
+                case SDL_MOUSEBUTTONUP:
+                    if(e.button.button == SDL_BUTTON_LEFT)
+                    {
+                        for(size_t t = 0; t < polygons.size(); t++)
+                        {
+                            polygons.at(t).unselect();
+                        }
+                    }
+                    break;
 			}
 		}
 
