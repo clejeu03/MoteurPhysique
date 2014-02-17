@@ -48,9 +48,9 @@ int main() {
     std::vector<imac3::Polygon> polygons;
     std::vector<imac3::PolygonForce> polygonForces;
 
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 0), glm::vec2(-0.3, 0.4), 0.2, 6));
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 1, 0), glm::vec2(0.4, 0.4), 0.2, 6));
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 0, 1), glm::vec2(-0.1, -0.3), 0.2, 6));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 0), glm::vec2(-0.3, 0.4), 0.2, 5));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 1, 0), glm::vec2(0.4, 0.4), 0.2, 15));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 0, 1), glm::vec2(-0.1, -0.3), 0.2, 25));
 
     for(size_t i = 0; i < polygons.size(); i++)
     {
@@ -69,7 +69,8 @@ int main() {
     {
         wm.startMainLoop();
 
-        pm.createWaterfallParticles(100, widthWaterfall, heightWater, glm::vec3(0.2, 0.2, 0.2));
+        pm.createParticlesFromSource(50, glm::vec2(-0.9, 0.9), glm::vec2(0.3, 0.1), 1, glm::vec3(0, 0.2, 0.2));
+        pm.createParticlesFromSource(50, glm::vec2(-0.9, 0.5), glm::vec2(0.3, 0.1), 1, glm::vec3(0.2, 0.2, 0));
 
         // Rendu
         renderer.clear();

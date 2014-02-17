@@ -63,8 +63,8 @@ public:
 
     std::pair<int, unsigned int> addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color, bool isImmune = false);
     void addRandomParticles(unsigned int count);
-    void createWaterfallParticles(unsigned int count, float width, float height, glm::vec3 color);
-    
+    void createParticlesFromSource(unsigned int count, glm::vec2 position, glm::vec2 direction, float power, glm::vec3 color);
+
     //
     // Render particles
     //

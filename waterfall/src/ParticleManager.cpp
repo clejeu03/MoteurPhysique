@@ -59,12 +59,24 @@ namespace imac3
         } 
     }
 
-    void ParticleManager::createWaterfallParticles(unsigned int count, float width, float height, glm::vec3 color)
+    void ParticleManager::createParticlesFromSource(unsigned int count, glm::vec2 position, glm::vec2 direction, float power, glm::vec3 color)
     {
         for(size_t i = 0; i < count; i++)
         {
-            glm::vec2 randomPos = glm::vec2(glm::linearRand(-width/2, width/2), glm::linearRand(0.8-(height/2), 0.8+(height/2) ));
-            addParticle(randomPos, glm::linearRand(0.1f, 0.2f), glm::vec2(0.1, 0), color);
+            glm::vec2 newpos;
+            newpos.x = position.x + glm::linearRand(-0.05, 0.05);
+            newpos.y = position.y + glm::linearRand(-0.05, 0.05);
+
+            glm::vec2 newdir;
+            newdir.x = power * (direction.x + glm::linearRand(-0.03, 0.03));
+            newdir.y = power * (direction.y + glm::linearRand(-0.03, 0.03));
+
+            glm::vec3 newcolor;
+            newcolor.x = color.x + glm::linearRand(-0.05, 0.05);
+            newcolor.y = color.y + glm::linearRand(-0.05, 0.05);
+            newcolor.z = color.z + glm::linearRand(-0.05, 0.05);
+
+            addParticle(newpos, glm::linearRand(0.1f, 0.2f), newdir, newcolor);
         }
     }
 
