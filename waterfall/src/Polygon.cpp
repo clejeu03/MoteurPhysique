@@ -6,10 +6,14 @@ namespace imac3
 
 	double PI = 3.1415926535897;
 
-	Polygon::Polygon(glm::vec3 color, bool isInner)
-		: m_color(color),
-		  m_bisinner(isInner)
-	{  
+	Polygon::Polygon(glm::vec3 color, bool isInner) :
+		m_bisinner(isInner)
+	{
+		m_color.r = 0.5*color.r;
+		m_color.g = 0.5*color.g;
+		m_color.b = 0.5*color.b;
+		m_isSelected = false;
+		m_isHighlight = false;
 	}
 	
 	void Polygon::addVertex(glm::vec2 position)
@@ -87,7 +91,7 @@ namespace imac3
 		return m_bisinner;
 	}
 
-	bool Polygon::mouseOn(float mouseX, float mouseY)
+	bool Polygon::isMouseOn(float mouseX, float mouseY)
 	{
 		// Iterate through each edge to detect collision
 		for(size_t i = 1; i < m_vertices.size(); i++)
@@ -103,12 +107,11 @@ namespace imac3
 			float d = sqrt(AC.x*AB.y - AB.x*AC.y * AC.x*AB.y - AB.x*AC.y);
 
 			// Check 1 : C is on the line (P1, P2)
-			if(d <= 0.2)
+			if(d <= 0.25)
 			{
 				// Check 2 : C between A and B
 				if(glm::dot(CA, CB) <= 0)
 				{
-					select();
 					return true;
 				}
 			}

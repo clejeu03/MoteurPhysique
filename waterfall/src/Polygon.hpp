@@ -19,6 +19,7 @@ private:
 	glm::vec3 m_color;
 	bool m_bisinner;
 	bool m_isSelected;
+	bool m_isHighlight;
 	float m_radius;
 	float m_discFactor;
 	glm::vec2 m_center;
@@ -44,18 +45,38 @@ public:
 	bool isInner() const;
 	bool isSelected() { return m_isSelected; }
 
-	bool mouseOn(float mouseX, float mouseY);
+	bool isMouseOn(float mouseX, float mouseY);
 	void select()
 	{
 		m_isSelected = true;
-		m_color = glm::vec3(1., 1., 0);
 	}
 	void unselect()
 	{
 		m_isSelected = false;
-		m_color = glm::vec3(1., 0, 0);
 	}
-	
+	void highlight(bool yes)
+	{
+		if(yes)
+		{
+			if(!m_isHighlight)
+			{
+				m_color.r *= 2;
+				m_color.g *= 2;
+				m_color.b *= 2;
+			}
+			m_isHighlight = true;
+		}
+		else
+		{
+			if(m_isHighlight)
+			{
+				m_color.r *= 0.5;
+				m_color.g *= 0.5;
+				m_color.b *= 0.5;
+			}
+			m_isHighlight = false;
+		}
+	}
 };
 
 }

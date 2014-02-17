@@ -48,10 +48,9 @@ int main() {
     std::vector<imac3::Polygon> polygons;
     std::vector<imac3::PolygonForce> polygonForces;
 
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 1, 0), glm::vec2(-0.3, 0.4), 0.2, 6));
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 1, 1), glm::vec2(0.4, 0.4), 0.2, 6));
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 1), glm::vec2(-0.1, -0.3), 0.2, 6));
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0.5, 0.8), glm::vec2(0, 0), 0.5, 6));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 0), glm::vec2(-0.3, 0.4), 0.2, 6));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 1, 0), glm::vec2(0.4, 0.4), 0.2, 6));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 0, 1), glm::vec2(-0.1, -0.3), 0.2, 6));
 
     for(size_t i = 0; i < polygons.size(); i++)
     {
@@ -70,7 +69,7 @@ int main() {
     {
         wm.startMainLoop();
 
-        pm.createWaterfallParticles(100, widthWaterfall, heightWater);
+        pm.createWaterfallParticles(100, widthWaterfall, heightWater, glm::vec3(0.2, 0.2, 0.2));
 
         // Rendu
         renderer.clear();
@@ -110,7 +109,10 @@ int main() {
                         lastY = 1 - 2 * (float)e.button.y / WINDOW_HEIGHT;
                         for(size_t t = 0; t < polygons.size(); t++)
                         {
-                            polygons.at(t).mouseOn(lastX, lastY);
+                            if(polygons.at(t).isMouseOn(lastX, lastY))
+                            {
+                                polygons.at(t).select();
+                            }
                         }
                     }
                     break;
@@ -127,22 +129,25 @@ int main() {
                     break;
 
                 case SDL_MOUSEMOTION:
-                    if(leftKeyPressed)
+                    float x = -1 + 2 * (float)e.button.x / WINDOW_WIDTH;
+                    float y = 1 - 2 * (float)e.button.y / WINDOW_HEIGHT;
+                    for(size_t t = 0; t < polygons.size(); t++)
                     {
-                        for(size_t t = 0; t < polygons.size(); t++)
+                        if(leftKeyPressed && polygons.at(t).isSelected())
                         {
-                            if(polygons.at(t).isSelected())
-                            {
-                                float x = -1 + 2 * (float)e.button.x / WINDOW_WIDTH;
-                                float y = 1 - 2 * (float)e.button.y / WINDOW_HEIGHT;
-                                polygons.at(t).translate(glm::vec2(x - lastX, y - lastY));
-                                lastX = x;
-                                lastY = y;
-                            }
-                            
-                        };
-                    }
-                    
+                            polygons.at(t).translate(glm::vec2(x - lastX, y - lastY));
+                            lastX = x;
+                            lastY = y;
+                        }
+                        if(polygons.at(t).isMouseOn(x, y))
+                        {
+                            polygons.at(t).highlight(true);
+                        }
+                        else
+                        {
+                            polygons.at(t).highlight(false);
+                        }
+                    }            
                     break;
 			}
 		}

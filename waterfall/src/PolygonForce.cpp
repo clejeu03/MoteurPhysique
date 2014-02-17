@@ -38,7 +38,11 @@ namespace imac3
 							float m = pm.getMass(c, p);							
 							glm::vec2 F = m_fElasticity * glm::dot(nextvel, -normal) * m/m_fDt * normal;
 							pm.applyTo(c, p, F);
-							pm.setColor(c, p, m_Polygon->getColor());
+							glm::vec3 new_color;
+							new_color.r = (m_Polygon->getColor().r + pm.getColor(c, p).r)/2;
+							new_color.g = (m_Polygon->getColor().g + pm.getColor(c, p).g)/2;
+							new_color.b = (m_Polygon->getColor().b + pm.getColor(c, p).b)/2;
+							pm.setColor(c, p, new_color);
 						}
 					}
 				}
@@ -78,7 +82,11 @@ namespace imac3
 							float m = pm.getMass(c, p);							
 							glm::vec2 F = m_fElasticity * glm::dot(nextvel, -normal) * m/m_fDt * normal;
 							pm.applyTo(c, p, F);
-							pm.setColor(c, p, m_Polygon->getColor());
+							glm::vec3 new_color;
+							new_color.r = (m_Polygon->getColor().r + pm.getColor(c, p).r);
+							new_color.g = (m_Polygon->getColor().g + pm.getColor(c, p).g);
+							new_color.b = (m_Polygon->getColor().b + pm.getColor(c, p).b);
+							pm.setColor(c, p, new_color);
 						}
 					}
 				}

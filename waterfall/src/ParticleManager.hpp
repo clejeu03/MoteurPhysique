@@ -63,7 +63,7 @@ public:
 
     std::pair<int, unsigned int> addParticle(glm::vec2 pos, float mass, glm::vec2 speed, glm::vec3 color, bool isImmune = false);
     void addRandomParticles(unsigned int count);
-    void createWaterfallParticles(unsigned int count, float width, float height);
+    void createWaterfallParticles(unsigned int count, float width, float height, glm::vec3 color);
     
     //
     // Render particles
@@ -127,6 +127,11 @@ public:
     inline int getNonMovableDuration(int cell_id, size_t index) const
     {
         return m_particles[cell_id].at(index)->nonmovableduration;
+    }
+
+    inline glm::vec3 getColor(int cell_id, size_t index) const
+    {
+        return m_particles[cell_id].at(index)->color;
     }
 
     //
