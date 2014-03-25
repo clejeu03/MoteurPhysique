@@ -37,7 +37,19 @@ public:
 						  
 	size_t getNumberVertices() const;
 	glm::vec2 getVertex(size_t index) const;
-	glm::vec3 getColor() const { return m_color; }
+	glm::vec3 getColor() const {return m_color; }
+	glm::vec3 getRealColor() const
+	{
+		if(m_isHighlight)
+		{
+			return m_color;
+		}
+		else
+		{
+			return m_color + m_color;
+		}
+	}
+
 	glm::vec2 getCenter() const { return m_center; }
 
 	void translate(glm::vec2 trans);

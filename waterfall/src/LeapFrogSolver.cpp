@@ -51,7 +51,6 @@ const float MAX_SPEED = -0.3f;
 			// For each particle in this cell
 			for(int p = 0; p < pm.getNumberParticles(c); ++p)
 			{
-				//fprintf(stderr, "update particle %d of cell %lu (size = %d)\n", p, c, pm.getNumberParticles(c));
 				pm.updateGridIndexes(c, p);
 			}			
 		}

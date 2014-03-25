@@ -20,8 +20,8 @@
 
 #include <vector>
 
-static const Uint32 WINDOW_WIDTH = 512;
-static const Uint32 WINDOW_HEIGHT = 512;
+static const Uint32 WINDOW_WIDTH = 1024;
+static const Uint32 WINDOW_HEIGHT = 1024;
 
 
 int main() {
@@ -48,9 +48,11 @@ int main() {
     std::vector<imac3::Polygon> polygons;
     std::vector<imac3::PolygonForce> polygonForces;
 
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 0), glm::vec2(-0.3, 0.4), 0.2, 5));
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 1, 0), glm::vec2(0.4, 0.4), 0.2, 15));
-    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 0, 1), glm::vec2(-0.1, -0.3), 0.2, 25));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 0), glm::vec2(-0.5, 0.5), 0.1, 9));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 1, 0), glm::vec2(0.5, 0.5), 0.3, 9));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(0, 0, 1), glm::vec2(0.5, -0.5), 0.05, 9));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0.5, 0), glm::vec2(-0.5, -0.5), 0.1, 9));
+    polygons.push_back(imac3::Polygon::buildCircle(glm::vec3(1, 0, 1), glm::vec2(0., 0.), 0.2, 9));
 
     for(size_t i = 0; i < polygons.size(); i++)
     {
@@ -69,8 +71,8 @@ int main() {
     {
         wm.startMainLoop();
 
-        pm.createParticlesFromSource(50, glm::vec2(-0.9, 0.9), glm::vec2(0.3, 0.1), 1, glm::vec3(0, 0.2, 0.2));
-        pm.createParticlesFromSource(50, glm::vec2(-0.9, 0.5), glm::vec2(0.3, 0.1), 1, glm::vec3(0.2, 0.2, 0));
+        pm.createParticlesFromSource(50, glm::vec2(1, -1), glm::vec2(-0.3, 0.5), 1, glm::vec3(1.f, 1.f, 1.f));
+        pm.createParticlesFromSource(50, glm::vec2(-1, 0.5), glm::vec2(0.1, 0.1), 1, glm::vec3(1.f, 1.f, 1.f));
 
         // Rendu
         renderer.clear();
